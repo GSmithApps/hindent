@@ -1,21 +1,21 @@
 Hindent is a syntax wrapper around lisp/scheme.
-The difference between Hindent code and lisp/scheme code is very simple:
+The difference between Hindent and lisp/scheme is very simple:
 wherever lisp/scheme uses parenthesis,
-Hindent uses hanging indents.
+Hindent uses hanging indents.  For example:
 
-To do this, Hindent simply parses the Hindent code and
-inserts parenthesis where appropriate.  So, it is mostly
-a parser, but a fancy word for it could be a transpiler.
-To use it as a transpiler, simply call the ``transpile``
-method.
+```
+# Hindent
 
-It also allows you to run the code if you have a lisp/scheme
-interpreter installed.  It defaults to chez scheme, but you
-can change it to any lisp/scheme interpreter you want by
-simply passing a callable to the ``initialize`` method.
-Then you can run with the ``execute_lisp`` method.
++
+  2
+  2
 
-# Example hindent code
+# lisp
+
+(+ 2 2)
+```
+
+And some more examples:
 
 ```
 display
@@ -23,8 +23,10 @@ display
     2
     2
 
-newline
+(display (+ 2 2))
+```
 
+```
 display
   car
     quote
@@ -32,18 +34,28 @@ display
         2
         3
 
+(display (car (quote (1 2 3))))
+```
+
+```
 define
   x
   4
 
-newline
++
+  2
+  x
 
-display
-  +
-    2
-    x
-
+(define x 4)
+(+ 2 x)
 ```
+
+# How it works
+
+Hindent simply parses the Hindent code and
+inserts parenthesis where appropriate to convert
+it to lisp/scheme.  So, it is mostly
+a parser, but a fancy word for it could be a transpiler.
 
 # Installation
 
@@ -61,6 +73,14 @@ I think a nice way to interactively run programs is with jupyter.
 So, I recommend opening up a jupyter notebook. Then, simply start to
 import ``Hindent`` with `from Hindent`, and the docstrings/code-hover
 will guide you from there.
+
+> One heads up is that when running, the `newline` and `display` functions
+> are helpful.  If you don't use `display`, then lisp will not output
+> anything. So, if you are experimenting, and you want to see results
+> of what you run, you need to use `display`.
+> And regarding `newline`, if you don't use it, all of the output will be smushed
+> together.
+
 
 
 
@@ -93,3 +113,5 @@ will guide you from there.
 - [ ] VS Code extension
   - [ ] file icon
   - [ ] syntax highlight comments
+- [ ] maybe get it out of running as a subprocess so
+      it returns things more easily

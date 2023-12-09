@@ -50,7 +50,7 @@ class LispExecutor:
     """
 
 
-def _execute_scheme_code(filename):
+def _default_lisp_executor(filename):
     """
     Default executor function for executing Scheme code using Chez Scheme.
 
@@ -69,7 +69,7 @@ def _execute_scheme_code(filename):
 
     Examples
     --------
-    >>> stdout, stderr = _execute_scheme_code("example.scm")
+    >>> stdout, stderr = _default_lisp_executor("example.scm")
     >>> print(stdout)
     """
 
@@ -88,6 +88,19 @@ class Hindent:
     Use `Hindent.initialize` to configure the environment, and then use `Hindent.run`,
     `Hindent.run_file`, or `Hindent.run_string` to execute Hindent code.
 
+    Heads up
+    --------
+     
+    When running, the `newline` and `display` functions
+    are helpful.  If you don't use `display`, then lisp will not output
+    anything. So, if you are experimenting, and you want to see results
+    of what you run, you need to use `display`.
+    And regarding `newline`, if you don't use it, all of the output will be smushed
+    together.
+
+    Examples
+    --------
+
     >>> # from hindent import Hindent
     >>> # Hindent.initialize()
     >>> # Hindent.run()
@@ -95,18 +108,20 @@ class Hindent:
     Other usage
     -----------
 
-    You can also use ``Hindent.run_file`` and ``Hindent.run_string``.
-    ``Hindent.run_file`` takes a ``Path`` object, which lets you specify the
-    file to run instead of only using the default file. ``Hindent.run_string``
-    takes a string, which lets you run code on the fly instead of having to
-    write it to a file first.
+    This class can also be used as a transpiler to convert Hindent code to Scheme code.
+    Use `Hindent.transpile`, `Hindent.transpile_file`, or `Hindent.transpile_string` to
+    transpile Hindent code to Scheme code.
+
+    It can also simply be used as a lisp executor by using `Hindent.execute_lisp`.
+    This can be helpful if you've already transpiled Hindent code to Scheme code and
+    just want to execute it.
     """
 
     @classmethod
     def initialize(
         cls,
         file_path: Path = Path("./first.hin"),
-        lisp_executor: LispExecutor = _execute_scheme_code,
+        lisp_executor: LispExecutor = _default_lisp_executor,
     ):
         """
         Initializes the Hindent environment with a specified file and Lisp executor.
@@ -117,7 +132,7 @@ class Hindent:
         file_path : Path
             The file path of the Hindent code to be formatted and executed.
         lisp_executor : LispExecutor
-            The executor function to run the Lisp code. Defaults to `_execute_scheme_code` using Chez Scheme.
+            The executor function to run the Lisp code. Defaults to `_default_lisp_executor` using Chez Scheme.
 
         Examples
         --------
