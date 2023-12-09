@@ -6,14 +6,14 @@ Hindent uses hanging indents.
 To do this, Hindent simply parses the Hindent code and
 inserts parenthesis where appropriate.  So, it is mostly
 a parser, but a fancy word for it could be a transpiler.
-to use it as a transpiler, simply call the ``transpile``
+To use it as a transpiler, simply call the ``transpile``
 method.
 
 It also allows you to run the code if you have a lisp/scheme
 interpreter installed.  It defaults to chez scheme, but you
 can change it to any lisp/scheme interpreter you want by
 simply passing a callable to the ``initialize`` method.
-then you can run with the ``execute_lisp`` method.
+Then you can run with the ``execute_lisp`` method.
 
 # Example hindent code
 
@@ -56,9 +56,10 @@ display
 1. Clone this repository or simply grab the python file
 2. Install chez scheme and make sure it's on your
    path by running `chez`.
-   - This also works with other lisps or schemes. The
+   - This also works with other lisps or schemes. If
+     you want to do that, the
      notes in the ``initialize`` method will explain how
-     to do so.
+     to do it.
 
 # Usage
 
