@@ -3,7 +3,7 @@ import re
 
 test = Path('./first.hin')
 
-def process_code_v2(code):
+def process_code_v3(code):
     # Split the code into lines
     lines = code.split("\n")
 
@@ -14,7 +14,16 @@ def process_code_v2(code):
     # Process each line
     processed_lines = []
     for i in range(len(lines)):
-        # Skip processing for the last line (it should remain blank)
+        # Handle blank lines or lines with only whitespace (except the last line)
+        if lines[i].strip() == '' and i != len(lines) - 1:
+            # Avoid adding multiple consecutive blank lines
+            if processed_lines and processed_lines[-1] == '':
+                continue
+            else:
+                processed_lines.append('')
+                continue
+
+        # Skip processing for the very last line (it should remain blank)
         if i == len(lines) - 1:
             processed_lines.append('')
             continue
@@ -40,10 +49,11 @@ def process_code_v2(code):
     return "\n".join(processed_lines)
 
 
+
 input_code = test.read_text()
 
 # Add parentheses with the fixed function and return the result
-parenthesized_code_fixed = process_code_v2(input_code)
+parenthesized_code_fixed = process_code_v3(input_code)
 
 # print(parenthesized_code_fixed)
 

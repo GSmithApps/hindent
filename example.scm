@@ -1,12 +1,15 @@
+
 (display
 (+
 2
 2))
+
 (newline)
 (display
 (+
 2
 2))
+
 (newline)
 (display
 (car
@@ -14,3 +17,4 @@
 (1
 2
 3))))
+
