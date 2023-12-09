@@ -10,3 +10,41 @@
 
 I think a nice way to interactively run programs is with jupyter.
 So, I recommend opening up a jupyter notebook. 
+Simply 
+
+# Example hindent code
+
+``````
+display
+  +
+    2
+    2
+
+newline
+display
+  +
+    2
+    2
+
+newline
+
+display
+  car
+    quote
+      1
+        2
+        3
+
+define
+  x
+  4
+
+newline
+
+display
+  +
+    2
+    x
+
+```
+
