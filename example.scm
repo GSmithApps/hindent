@@ -1,11 +1,16 @@
 (display
-(  +
-    2
-    2))
-
+(+
+2
+2))
 (newline)
-
 (display
-(  +
-    5
-    4))
+(+
+2
+2))
+(newline)
+(display
+(car
+(quote
+(1
+2
+3))))

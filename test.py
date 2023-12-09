@@ -3,48 +3,47 @@ import re
 
 test = Path('./first.hin')
 
-def add_parentheses_to_code_final_corrected(code):
-    # Split the code into blocks separated by empty lines
-    blocks = code.strip().split('\n\n')
+def process_code_v2(code):
+    # Split the code into lines
+    lines = code.split("\n")
 
-    # Function to process a single block of code
-    def process_block(block):
-        lines = block.split('\n')
-        indent_levels = [len(line) - len(line.lstrip()) for line in lines]
-        indent_levels = [indent // 2 for indent in indent_levels]
+    # Function to calculate the indentation level of a line
+    def indentation_level(line):
+        return (len(line) - len(line.lstrip())) // 2
 
-        # Calculate the differences in indentation between lines
-        indent_diff = [indent_levels[i + 1] - indent_levels[i] for i in range(len(indent_levels) - 1)]
+    # Process each line
+    processed_lines = []
+    for i in range(len(lines)):
+        # Skip processing for the last line (it should remain blank)
+        if i == len(lines) - 1:
+            processed_lines.append('')
+            continue
 
-        result = []
-        for i, line in enumerate(lines):
-            # Add opening parentheses for lines that start a new block
-            if i < len(indent_diff) and indent_diff[i] > 0:
-                result.append('(' * indent_diff[i] + line)
-            # Add closing parentheses for lines that end a block
-            elif i > 0 and indent_diff[i - 1] < 0:
-                result.append(line + ')' * abs(indent_diff[i - 1]))
-            # Wrap standalone lines (lines that neither start nor end a block)
-            elif indent_levels[i] == 0 and (i == len(lines) - 1 or indent_levels[i + 1] == 0):
-                result.append('(' + line + ')')
-            else:
-                result.append(line)
+        # Calculate the current and next line's indentation levels
+        current_indent = indentation_level(lines[i])
+        next_indent = indentation_level(lines[i + 1]) if i + 1 < len(lines) - 1 else 0
 
-        # Add closing parentheses at the end of the block if needed
-        if indent_levels and indent_levels[-1] > 0:
-            result[-1] += ')' * indent_levels[-1]
+        # Determine the required parentheses
+        line = lines[i].lstrip()  # Remove leading spaces
+        if next_indent > current_indent:
+            line = "(" + line
+        elif next_indent < current_indent:
+            line += ")" * (current_indent - next_indent)
 
-        return '\n'.join(result)
+        # Special case: same indentation level
+        if next_indent == current_indent and current_indent == 0 and i != 0:
+            line = "(" + line + ")"
 
-    # Process each block and combine
-    processed_blocks = [process_block(block) for block in blocks]
-    return '\n\n'.join(processed_blocks)
+        processed_lines.append(line)
+
+    # Join the processed lines
+    return "\n".join(processed_lines)
 
 
 input_code = test.read_text()
 
 # Add parentheses with the fixed function and return the result
-parenthesized_code_fixed = add_parentheses_to_code_final_corrected(input_code)
+parenthesized_code_fixed = process_code_v2(input_code)
 
 # print(parenthesized_code_fixed)
 
