@@ -52,7 +52,7 @@ display
 
 I think a nice way to interactively run programs is with jupyter.
 So, I recommend opening up a jupyter notebook. Then, simply start to
-import Hindent with `from Hindent`, and the docstrings/code hover
+import ``Hindent`` with `from Hindent`, and the docstrings/code-hover
 will guide you from there.
 
 
