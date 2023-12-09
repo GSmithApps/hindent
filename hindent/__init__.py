@@ -27,6 +27,14 @@ class LispExecutor:
 
     tuple
         The output and error of the execution.
+
+    Examples
+    --------
+
+    >>> def execute_scheme_code(filename):
+    ...     # For Chez Scheme, the command is typically 'scheme --script'
+    ...     process = subprocess.run(['chez', '--script', filename], capture_output=True, text=True)
+    ...     return process.stdout, process.stderr
     """
 
 
@@ -39,8 +47,18 @@ class Hindent:
     """
     Has two methods: ``initialize`` and ``run``.
 
-    >>> from hindent import Hindent
-    >>> # then do Hindent.initialize() and Hindent.run()
+    >>> # from hindent import Hindent
+    >>> # Hindent.initialize()
+    >>> # Hindent.run()
+
+    Other usage
+    -----------
+
+    You can also use ``Hindent.run_file`` and ``Hindent.run_string``.
+    ``Hindent.run_file`` takes a ``Path`` object, which lets you specify the
+    file to run instead of only using the default file. ``Hindent.run_string``
+    takes a string, which lets you run code on the fly instead of having to
+    write it to a file first.
     """
 
     @classmethod
@@ -67,8 +85,8 @@ class Hindent:
         and error of the execution.
         """
 
-        cls.file_path = file_path
-        cls.lisp_executor = lisp_executor
+        cls._file_path = file_path
+        cls._lisp_executor = lisp_executor
 
     @classmethod
     def run(cls) -> tuple:
@@ -78,7 +96,42 @@ class Hindent:
         >>> print(output)
         some output
         """
-        return Hindent._interpret(cls.file_path, cls.lisp_executor)
+        return Hindent._interpret(
+            Hindent._get_text_from_file_path(cls._file_path),
+            cls._lisp_executor
+        )
+    
+    @classmethod
+    def run_file(cls, file_path: Path) -> tuple:
+        """
+        >>> # import and initialize Hindent
+        >>> file_path = Path('./example_hindent_code.hin')
+        >>> output, error = Hindent.run_file(file_path)
+        >>> print(output)
+        some output
+        """
+        return Hindent._interpret(
+            Hindent._get_text_from_file_path(file_path),
+            cls._lisp_executor
+        )
+
+    @classmethod
+    def run_string(cls, string: str) -> tuple:
+        """
+        >>> # import and initialize Hindent
+        >>> input_string = (
+        ...     "display\\n"
+        ...     "  2\\n"
+        ...     ""
+        ... )
+        >>> output, error = Hindent.run_string(input_string)
+        >>> print(output)
+        some output
+        """
+        return Hindent._interpret(
+            string,
+            cls._lisp_executor
+        )
 
     @staticmethod
     def _process_code_v3(code):
@@ -132,11 +185,7 @@ class Hindent:
             file.write(code)
 
     @staticmethod
-    def _interpret(file_path: Path, lisp_executor: LispExecutor) -> tuple:
-
-        file_path = Path(file_path)
-
-        input_code = file_path.read_text()
+    def _interpret(input_code: str, lisp_executor: LispExecutor) -> tuple:
 
         # Add parentheses with the fixed function and return the result
         parenthesized_code_fixed = Hindent._process_code_v3(input_code)
@@ -151,5 +200,12 @@ class Hindent:
         os.remove(_SAVED_FILE_SCM)
 
         return output, error
+
+    @staticmethod
+    def _get_text_from_file_path(file_path: Path) -> str:
+        file_path = Path(file_path)
+
+        input_code = file_path.read_text()
+        return input_code
 
 

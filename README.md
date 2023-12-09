@@ -61,6 +61,8 @@ will guide you from there.
 
 - the first line should have no indents
 - the last line should be blank
+- any line that starts with a `;` is a comment and should be 
+  removed
 - any amount of whitespace that contributes to a blank line
   (other than the last line) should be replaced with a single
   new line character. For example, `\n\n\n` should be replaced
@@ -78,3 +80,10 @@ will guide you from there.
     - if the current indentation level (and also the indentation level of the following line)
       is nonzero, then do nothing
 
+# ToDo
+
+- [x] allow for comments
+- [ ] VS Code extension
+  - [ ] file icon
+  - [ ] syntax highlight comments
+- [ ] make it so you can pass in a string instead of a file
