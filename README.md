@@ -95,9 +95,8 @@ will guide you from there.
 # ToDo
 
 - [ ] allow for comments
+  - [ ] actually, reverse code and comments to allow
+        for literate programming
 - [ ] VS Code extension
   - [ ] file icon
   - [ ] syntax highlight comments
-- [x] make it so you can pass in a string instead of a file
-- [x] implement the transpile
-- [x] implement the execute scheme
