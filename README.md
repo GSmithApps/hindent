@@ -13,7 +13,7 @@ It also allows you to run the code if you have a lisp/scheme
 interpreter installed.  It defaults to chez scheme, but you
 can change it to any lisp/scheme interpreter you want by
 simply passing a callable to the ``initialize`` method.
-then you can run with the ``run_lisp`` method.
+then you can run with the ``execute_lisp`` method.
 
 # Example hindent code
 

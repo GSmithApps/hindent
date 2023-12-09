@@ -160,7 +160,7 @@ class Hindent:
         >>> print(output)
         some output
         """
-        return Hindent._interpret(
+        return Hindent.run_string(
             Hindent._get_text_from_file_path(cls._file_path),
         )
 
@@ -188,12 +188,12 @@ class Hindent:
         >>> print(output)
         some output
         """
-        return Hindent._interpret(
+        return Hindent.run_string(
             Hindent._get_text_from_file_path(file_path),
         )
 
     @classmethod
-    def run_string(cls, string: str) -> tuple:
+    def run_string(cls, hindent_code: str) -> tuple:
         """
         Executes and retrieves the output of Lisp code from a given string.
 
@@ -202,7 +202,7 @@ class Hindent:
 
         Parameters
         ----------
-        string : str
+        hindent_code : str
             The string containing the Hindent code to be formatted and executed.
 
         Returns
@@ -214,21 +214,79 @@ class Hindent:
         --------
 
         >>> # import and initialize Hindent
-        >>> input_string = (
+        >>> hindent_code = (
         ...     "display\\n"
         ...     "  2\\n"
         ...     ""
         ... )
-        >>> output, error = Hindent.run_string(input_string)
+        >>> output, error = Hindent.run_string(hindent_code)
         >>> print(output)
         some output
         """
-        return Hindent._interpret(
-            string,
+
+        # Add parentheses with the fixed function and return the result
+        parenthesized_code_fixed = Hindent.transpile_string(hindent_code)
+
+        # Example usage
+        output, error = Hindent.execute_lisp(parenthesized_code_fixed)
+
+        return output, error
+
+    @classmethod
+    def transpile(cls) -> str:
+        """
+        Transpiles Hindent code from the initialized file to Scheme code.
+
+        This method reads the Hindent code from the file specified during initialization,
+        transpiles it to Scheme code by adding appropriate parentheses based on indentation,
+        and returns the transpiled Scheme code.
+
+        Returns
+        -------
+        str
+            The transpiled Scheme code.
+
+        Examples
+        --------
+        >>> Hindent.initialize(Path('./example.hin'))
+        >>> scheme_code = Hindent.transpile()
+        >>> print(scheme_code)
+        """
+        return Hindent.transpile_string(
+            Hindent._get_text_from_file_path(cls._file_path),
         )
 
     @staticmethod
-    def transpile(code):
+    def transpile_file(file_path: Path) -> str:
+        """
+        Transpiles Hindent code from a specified file to Scheme code.
+
+        This method reads the Hindent code from the given file, transpiles it to Scheme code
+        by adding appropriate parentheses based on indentation, and returns the transpiled
+        Scheme code.
+
+        Parameters
+        ----------
+        file_path : Path
+            The path to the file containing the Hindent code to be transpiled.
+
+        Returns
+        -------
+        str
+            The transpiled Scheme code.
+
+        Examples
+        --------
+        >>> file_path = Path('./example.hin')
+        >>> scheme_code = Hindent.transpile_file(file_path)
+        >>> print(scheme_code)
+        """
+        return Hindent.transpile_string(
+            Hindent._get_text_from_file_path(file_path),
+        )
+
+    @staticmethod
+    def transpile_string(hindent_code: str) -> str:
         """
         Transpiles Hindent code to Scheme code by adding appropriate parentheses based on indentation.
 
@@ -248,13 +306,17 @@ class Hindent:
 
         Examples
         --------
-        >>> hindent_code = "define x 10\\n  display x"
+        >>> hindent_code = (
+        ...     "display\\n"
+        ...     "  2\\n"
+        ...     ""
+        ... )
         >>> scheme_code = Hindent.transpile(hindent_code)
         >>> print(scheme_code)
         """
 
         # Split the code into lines
-        lines = code.split("\n")
+        lines = hindent_code.split("\n")
 
         # Function to calculate the indentation level of a line
         def indentation_level(line):
@@ -304,41 +366,8 @@ class Hindent:
         with open(filename, "w") as file:
             file.write(code)
 
-    @staticmethod
-    def _interpret(input_code: str) -> tuple:
-        """
-        Interprets the given Hindent code, transpiling it to Scheme and executing it.
-
-        This internal method first transpiles the provided Hindent code to Scheme,
-        then executes the Scheme code and returns the output and error.
-
-        Parameters
-        ----------
-        input_code : str
-            The Hindent code to be interpreted.
-
-        Returns
-        -------
-        tuple
-            A tuple containing the standard output and standard error from the executed Scheme code.
-
-        Examples
-        --------
-        >>> hindent_code = "define x 10\\n  display x"
-        >>> output, error = Hindent._interpret(hindent_code)
-        >>> print(output)
-        """
-
-        # Add parentheses with the fixed function and return the result
-        parenthesized_code_fixed = Hindent.transpile(input_code)
-
-        # Example usage
-        output, error = Hindent.run_lisp(parenthesized_code_fixed)
-
-        return output, error
-
     @classmethod
-    def run_lisp(cls, parenthesized_code_fixed):
+    def execute_lisp(cls, lisp_code: str) -> tuple:
         """
         Executes the given Scheme code after saving it to a temporary file.
 
@@ -357,7 +386,7 @@ class Hindent:
             A tuple containing the standard output and standard error from the executed Scheme code.
         """
 
-        Hindent._save_code_to_file(parenthesized_code_fixed, _SAVED_FILE_SCM)
+        Hindent._save_code_to_file(lisp_code, _SAVED_FILE_SCM)
         output, error = cls._lisp_executor(_SAVED_FILE_SCM)
 
         # delete file
