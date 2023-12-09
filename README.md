@@ -45,7 +45,7 @@ display
 2. Install chez scheme and make sure it's on your
    path by running `chez`.
    - This also works with other lisps or schemes. The
-     hotes in the ``initialize`` method will explain how
+     notes in the ``initialize`` method will explain how
      to do so.
 
 # Usage
