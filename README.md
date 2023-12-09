@@ -68,8 +68,6 @@ will guide you from there.
 
 - the first line should have no indents
 - the last line should be blank
-- any line that starts with a `;` is a comment and should be 
-  removed
 - any amount of whitespace that contributes to a blank line
   (other than the last line) should be replaced with a single
   new line character. For example, `\n\n\n` should be replaced
