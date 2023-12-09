@@ -11,9 +11,8 @@ display
     2
     2
 
-   
-
 newline
+
 display
   car
     quote
@@ -21,4 +20,13 @@ display
         2
         3
 
+define
+  x
+  4
 
+newline
+
+display
+  +
+    2
+    x

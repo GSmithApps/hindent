@@ -1,9 +1,29 @@
 from pathlib import Path
-import re
+import os
+from scheme_execution import execute_scheme_code as _execute_scheme_code
 
-test = Path('./first.hin')
 
-def process_code_v3(code):
+_SAVED_FILE_SCM = "SAVED_FILE.scm"
+
+class LispExecutor:
+    """
+    Function that takes a filename and executes the lisp code on it.
+
+    The default will use Chez Scheme.
+
+    Parameters
+    ----------
+    filename : str
+        The name of the file to execute.
+    
+    Returns
+    -------
+
+    tuple
+        The output and error of the execution.
+    """
+
+def _process_code_v3(code):
     # Split the code into lines
     lines = code.split("\n")
 
@@ -48,32 +68,40 @@ def process_code_v3(code):
     # Join the processed lines
     return "\n".join(processed_lines)
 
-
-
-input_code = test.read_text()
-
-# Add parentheses with the fixed function and return the result
-parenthesized_code_fixed = process_code_v3(input_code)
-
-# print(parenthesized_code_fixed)
-
-import subprocess
-
-def save_code_to_file(code, filename):
+def _save_code_to_file(code, filename):
     with open(filename, 'w') as file:
         file.write(code)
 
-def execute_scheme_code(filename):
-    # For Chez Scheme, the command is typically 'scheme --script'
-    process = subprocess.run(['chez', '--script', filename], capture_output=True, text=True)
-    return process.stdout, process.stderr
 
-# Example usage
-save_code_to_file(parenthesized_code_fixed, 'example.scm')
-output, error = execute_scheme_code('example.scm')
+def _interpret(file_path: Path, lisp_executor: LispExecutor) -> tuple:
 
+    file_path = Path(file_path)
 
-print(output)
+    input_code = file_path.read_text()
 
-# output, error
+    # Add parentheses with the fixed function and return the result
+    parenthesized_code_fixed = _process_code_v3(input_code)
 
+    # print(parenthesized_code_fixed)
+
+    # Example usage
+    _save_code_to_file(parenthesized_code_fixed, _SAVED_FILE_SCM)
+    output, error = lisp_executor(_SAVED_FILE_SCM)
+
+    # delete file
+    os.remove(_SAVED_FILE_SCM)
+
+    return output, error
+
+class Hindent:
+
+    def __init__(
+        self,
+        file_path: Path = Path('./first.hin'),
+        lisp_executor: LispExecutor = _execute_scheme_code
+    ):
+        self.file_path = file_path
+        self.lisp_executor = lisp_executor
+
+    def run(self) -> tuple:
+        return _interpret(self.file_path, self.lisp_executor)
