@@ -24,12 +24,6 @@ display
     2
 
 newline
-display
-  +
-    2
-    2
-
-newline
 
 display
   car
