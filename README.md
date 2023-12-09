@@ -48,8 +48,8 @@ display
 # Installation
 
 1. Clone this repository or simply grab the python file
-2. Install chez scheme and make sure it's on your
-   path by running `chez`.
+2. Install chez scheme (`brew install chezscheme`)
+   and make sure it's on your path by running `chez`.
    - This also works with other lisps or schemes. If
      you want to do that, the
      notes in the ``initialize`` method will explain how
