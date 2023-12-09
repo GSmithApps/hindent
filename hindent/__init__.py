@@ -17,6 +17,7 @@ import subprocess
 
 _SAVED_FILE_SCM = "SAVED_FILE.scm"
 
+
 # This class is just for type hinting for a function/callback
 class LispExecutor:
     """
@@ -32,7 +33,7 @@ class LispExecutor:
     ----------
     filename : str
         The name of the file to execute.
-    
+
     Returns
     -------
 
@@ -73,7 +74,9 @@ def _execute_scheme_code(filename):
     """
 
     # For Chez Scheme, the command is typically 'scheme --script'
-    process = subprocess.run(['chez', '--script', filename], capture_output=True, text=True)
+    process = subprocess.run(
+        ["chez", "--script", filename], capture_output=True, text=True
+    )
     return process.stdout, process.stderr
 
 
@@ -102,8 +105,8 @@ class Hindent:
     @classmethod
     def initialize(
         cls,
-        file_path: Path = Path('./first.hin'),
-        lisp_executor: LispExecutor = _execute_scheme_code
+        file_path: Path = Path("./first.hin"),
+        lisp_executor: LispExecutor = _execute_scheme_code,
     ):
         """
         Initializes the Hindent environment with a specified file and Lisp executor.
@@ -122,7 +125,7 @@ class Hindent:
         >>> # import Hindent
         >>> from pathlib import Path
         >>> Hindent.initialize(
-        ...     Path('./example_hindent_code.hin'), 
+        ...     Path('./example_hindent_code.hin'),
         ... )
         >>> # then do Hindent.run()
 
@@ -160,7 +163,7 @@ class Hindent:
         return Hindent._interpret(
             Hindent._get_text_from_file_path(cls._file_path),
         )
-    
+
     @classmethod
     def run_file(cls, file_path: Path) -> tuple:
         """
@@ -261,22 +264,24 @@ class Hindent:
         processed_lines = []
         for i in range(len(lines)):
             # Handle blank lines or lines with only whitespace (except the last line)
-            if lines[i].strip() == '' and i != len(lines) - 1:
+            if lines[i].strip() == "" and i != len(lines) - 1:
                 # Avoid adding multiple consecutive blank lines
-                if processed_lines and processed_lines[-1] == '':
+                if processed_lines and processed_lines[-1] == "":
                     continue
                 else:
-                    processed_lines.append('')
+                    processed_lines.append("")
                     continue
 
             # Skip processing for the very last line (it should remain blank)
             if i == len(lines) - 1:
-                processed_lines.append('')
+                processed_lines.append("")
                 continue
 
             # Calculate the current and next line's indentation levels
             current_indent = indentation_level(lines[i])
-            next_indent = indentation_level(lines[i + 1]) if i + 1 < len(lines) - 1 else 0
+            next_indent = (
+                indentation_level(lines[i + 1]) if i + 1 < len(lines) - 1 else 0
+            )
 
             # Determine the required parentheses
             line = lines[i].lstrip()  # Remove leading spaces
@@ -296,7 +301,7 @@ class Hindent:
 
     @staticmethod
     def _save_code_to_file(code, filename):
-        with open(filename, 'w') as file:
+        with open(filename, "w") as file:
             file.write(code)
 
     @staticmethod
@@ -357,7 +362,7 @@ class Hindent:
 
         # delete file
         os.remove(_SAVED_FILE_SCM)
-        return output,error
+        return output, error
 
     @staticmethod
     def _get_text_from_file_path(file_path: Path) -> str:
@@ -386,5 +391,3 @@ class Hindent:
 
         input_code = file_path.read_text()
         return input_code
-
-
