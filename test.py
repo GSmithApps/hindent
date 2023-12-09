@@ -3,7 +3,7 @@ import re
 
 test = Path('./first.hin')
 
-def add_parentheses_to_code_multi(code):
+def add_parentheses_to_code_final_corrected(code):
     # Split the code into blocks separated by empty lines
     blocks = code.strip().split('\n\n')
 
@@ -12,25 +12,29 @@ def add_parentheses_to_code_multi(code):
         lines = block.split('\n')
         indent_levels = [len(line) - len(line.lstrip()) for line in lines]
         indent_levels = [indent // 2 for indent in indent_levels]
+
+        # Calculate the differences in indentation between lines
         indent_diff = [indent_levels[i + 1] - indent_levels[i] for i in range(len(indent_levels) - 1)]
 
         result = []
         for i, line in enumerate(lines):
+            # Add opening parentheses for lines that start a new block
             if i < len(indent_diff) and indent_diff[i] > 0:
                 result.append('(' * indent_diff[i] + line)
+            # Add closing parentheses for lines that end a block
+            elif i > 0 and indent_diff[i - 1] < 0:
+                result.append(line + ')' * abs(indent_diff[i - 1]))
+            # Wrap standalone lines (lines that neither start nor end a block)
+            elif indent_levels[i] == 0 and (i == len(lines) - 1 or indent_levels[i + 1] == 0):
+                result.append('(' + line + ')')
             else:
                 result.append(line)
 
-        # Add closing parentheses at the end
-        if indent_diff:
-            final_indent = indent_levels[-1]
-            result[-1] += ')' * final_indent
+        # Add closing parentheses at the end of the block if needed
+        if indent_levels and indent_levels[-1] > 0:
+            result[-1] += ')' * indent_levels[-1]
 
-        joined_text = '\n'.join(result)
-
-        # joined_text = f"(display {joined_text})"
-
-        return joined_text
+        return '\n'.join(result)
 
     # Process each block and combine
     processed_blocks = [process_block(block) for block in blocks]
@@ -40,7 +44,7 @@ def add_parentheses_to_code_multi(code):
 input_code = test.read_text()
 
 # Add parentheses with the fixed function and return the result
-parenthesized_code_fixed = add_parentheses_to_code_multi(input_code)
+parenthesized_code_fixed = add_parentheses_to_code_final_corrected(input_code)
 
 # print(parenthesized_code_fixed)
 
