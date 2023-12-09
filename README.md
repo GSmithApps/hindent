@@ -1,7 +1,19 @@
-I want to make a programming language like the examples below,
-in which we will use hanging indents to determine nesting and parenthesis,
-and then insert the parenthesis, then evaluate the code
-(with parenthesis inserted) in scheme.
+Hindent is a syntax wrapper around lisp/scheme.
+The difference between Hindent code and lisp/scheme code is very simple:
+wherever lisp/scheme uses parenthesis,
+Hindent uses hanging indents.
+
+To do this, Hindent simply parses the Hindent code and
+inserts parenthesis where appropriate.  So, it is mostly
+a parser, but a fancy word for it could be a transpiler.
+to use it as a transpiler, simply call the ``transpile``
+method.
+
+It also allows you to run the code if you have a lisp/scheme
+interpreter installed.  It defaults to chez scheme, but you
+can change it to any lisp/scheme interpreter you want by
+simply passing a callable to the ``initialize`` method.
+then you can run with the ``run_lisp`` method.
 
 # Example hindent code
 
@@ -82,8 +94,10 @@ will guide you from there.
 
 # ToDo
 
-- [x] allow for comments
+- [ ] allow for comments
 - [ ] VS Code extension
   - [ ] file icon
   - [ ] syntax highlight comments
-- [ ] make it so you can pass in a string instead of a file
+- [x] make it so you can pass in a string instead of a file
+- [x] implement the transpile
+- [x] implement the execute scheme
