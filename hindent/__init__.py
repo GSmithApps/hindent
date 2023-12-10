@@ -367,6 +367,9 @@ class Hindent:
 
         for i, line in enumerate(validlines[:-1]):
 
+            # Remove any end-of-line comments
+            line = Hindent.remove_potential_end_of_line_comment(line)
+
             # Calculate the current and next line's indentation levels
             current_indent = indentation_level(line)
             next_indent = indentation_level(validlines[i + 1])
@@ -445,3 +448,44 @@ class Hindent:
 
         input_code = file_path.read_text()
         return input_code
+
+    @staticmethod
+    def remove_potential_end_of_line_comment(line: str) -> str:
+        """
+        Removes any end-of-line comments from a line of code.
+
+        This method removes any end-of-line comments from a line of code, returning the
+        line without the comment.
+
+        We need to make sure that we don't remove comments from within strings.
+
+        Parameters
+        ----------
+        line : str
+            The line of code to be processed.
+
+        Returns
+        -------
+        str
+            The line of code without any end-of-line comments.
+
+        Examples
+        --------
+        >>> line = "display 2 ; this is a comment"
+        >>> line_without_comment = Hindent.remove_potential_end_of_line_comment(line)
+        >>> print(line_without_comment)
+        display 2
+        """
+
+        in_string = False
+
+        for i, char in enumerate(line):
+            if char == '"':
+                in_string = not in_string
+
+            if char == ";" and not in_string:
+                return line[:i]
+        
+        return line
+
+            
