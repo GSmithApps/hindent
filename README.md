@@ -93,7 +93,7 @@ a parser, but a fancy word for it could be a transpiler.
 
 I think a nice way to interactively run programs is with jupyter.
 So, I recommend opening up a jupyter notebook. Then, simply start to
-import ``Hindent`` with `from Hindent`, and the docstrings/code-hover
+import ``Hindent`` with `import Hindent as h`, and the docstrings/code-hover
 will guide you from there.
 
 > One heads up is that when running, the `newline` and `display` functions

@@ -30,6 +30,14 @@ transpile_string(hindent_code: str)
 
 execute_lisp(lisp_code: str)
     Executes the given Scheme code.
+
+Using a custom Lisp executor
+----------------------------
+
+The default Lisp executor uses Chez Scheme to execute Scheme code. However, you can
+use a custom Lisp executor by setting the `lisp_executor` variable to a function
+that takes a filename as input, executes the Lisp code in the file, and returns the
+output and error of the execution as a tuple.
 """
 
 __version__ = "2.0.1"
