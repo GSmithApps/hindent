@@ -118,7 +118,10 @@ will guide you from there.
 
 # ToDo
 
-- [ ] allow for end-of-line comments
+- [ ] allow for end-of-line comments -- this one is important
+      because the syntax highlighter already does this correctly,
+      and it will be confusing if the syntax highlighter works, but
+      the code doesn't.
 - [ ] maybe get it out of running as a subprocess so
       it returns things more easily
 - [ ] make a sphinx site
