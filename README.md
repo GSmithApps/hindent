@@ -86,12 +86,13 @@ will guide you from there.
 
 # Parsing Spec
 
-- the first line should have no indents
-- the last line should be blank
+- the parser/transpiler will put a new line after the source code
+  to ensure the final dedent is correct
 - any amount of whitespace that contributes to a blank line
   (other than the last line) should be replaced with a single
   new line character. For example, `\n\n\n` should be replaced
   with `\n`, and `\n   \n` should also be replaced with `\n`
+- lines that start with `;` are comments and will be ignored
 - calculate the number of spaces each line starts with.
 - Then divide by 2 to determine the indentation level
 - then, for each line find the difference in indentation level
@@ -108,6 +109,7 @@ will guide you from there.
 # ToDo
 
 - [ ] allow for comments
+  - [ ] indented comments that are in-between some code are currently breaking it
   - [ ] actually, reverse code and comments to allow
         for literate programming
 - [ ] VS Code extension
@@ -115,3 +117,4 @@ will guide you from there.
   - [ ] syntax highlight comments
 - [ ] maybe get it out of running as a subprocess so
       it returns things more easily
+- [ ] make a sphinx site

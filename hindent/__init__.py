@@ -330,6 +330,8 @@ class Hindent:
         >>> print(scheme_code)
         """
 
+        hindent_code = hindent_code + "\n"  # Add a newline to the end
+
         # Split the code into lines
         lines = hindent_code.split("\n")
 
@@ -339,36 +341,35 @@ class Hindent:
 
         # Process each line
         processed_lines = []
-        for i in range(len(lines)):
-            # Handle blank lines or lines with only whitespace (except the last line)
-            if lines[i].strip() == "" and i != len(lines) - 1:
-                # Avoid adding multiple consecutive blank lines
-                if processed_lines and processed_lines[-1] == "":
-                    continue
-                else:
-                    processed_lines.append("")
-                    continue
 
-            # Skip processing for the very last line (it should remain blank)
+        for i, line in enumerate(lines):
+
+            # guard clause to exit early if on the last line
             if i == len(lines) - 1:
-                processed_lines.append("")
+                # The last line should not be processed
+                assert line == "", "The last line should be empty"
                 continue
 
+            # Handle blank lines or lines with only whitespace (except the last line)
+            # guard clause to exit early if the line is whitespace or a comment
+            if line.strip() == "" or line.strip()[0] == ";":
+                continue
+
+            # after the above two guard clauses, the line should be a valid line of code
+            assert line.strip() != "", "The line should be a valid line of code"
+
             # Calculate the current and next line's indentation levels
-            current_indent = indentation_level(lines[i])
-            next_indent = (
-                indentation_level(lines[i + 1]) if i + 1 < len(lines) - 1 else 0
-            )
+            current_indent = indentation_level(line)
+            next_indent = indentation_level(lines[i + 1])
 
             # Determine the required parentheses
-            line = lines[i].lstrip()  # Remove leading spaces
             if next_indent > current_indent:
                 line = "(" + line
             elif next_indent < current_indent:
                 line += ")" * (current_indent - next_indent)
 
             # Special case: same indentation level
-            if next_indent == current_indent and current_indent == 0 and i != 0:
+            if next_indent == 0 and current_indent == 0:
                 line = "(" + line + ")"
 
             processed_lines.append(line)
