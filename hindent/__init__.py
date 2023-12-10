@@ -330,10 +330,31 @@ class Hindent:
         >>> print(scheme_code)
         """
 
-        hindent_code = hindent_code + "\n"  # Add a newline to the end
-
         # Split the code into lines
         lines = hindent_code.split("\n")
+
+        validlines = []
+
+        in_code_block = False
+
+        for i, line in enumerate(lines):
+
+            # Handle code blocks
+            if line.rstrip() == ".":
+                in_code_block = not in_code_block
+                continue
+
+            if not in_code_block:
+                continue
+
+            # Handle blank lines or lines with only whitespace (except the last line)
+            # guard clause to exit early if the line is whitespace or a comment
+            if line.strip() == "" or line.strip()[0] == ";":
+                continue
+
+            validlines.append(line)
+
+        validlines.append("\n")  # Add a newline to the end
 
         # Function to calculate the indentation level of a line
         def indentation_level(line):
@@ -342,25 +363,11 @@ class Hindent:
         # Process each line
         processed_lines = []
 
-        for i, line in enumerate(lines):
-
-            # guard clause to exit early if on the last line
-            if i == len(lines) - 1:
-                # The last line should not be processed
-                assert line == "", "The last line should be empty"
-                continue
-
-            # Handle blank lines or lines with only whitespace (except the last line)
-            # guard clause to exit early if the line is whitespace or a comment
-            if line.strip() == "" or line.strip()[0] == ";":
-                continue
-
-            # after the above two guard clauses, the line should be a valid line of code
-            assert line.strip() != "", "The line should be a valid line of code"
+        for i, line in enumerate(validlines[:-1]):
 
             # Calculate the current and next line's indentation levels
             current_indent = indentation_level(line)
-            next_indent = indentation_level(lines[i + 1])
+            next_indent = indentation_level(validlines[i + 1])
 
             # Determine the required parentheses
             if next_indent > current_indent:

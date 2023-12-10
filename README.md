@@ -86,6 +86,10 @@ will guide you from there.
 
 # Parsing Spec
 
+- the transpiler supports literate programming. So, most of the
+  source code is natural language.
+  - to denote a block of code, put a lone period on a line before
+    the code, and a lone period on a line after the code.
 - the parser/transpiler will put a new line after the source code
   to ensure the final dedent is correct
 - any amount of whitespace that contributes to a blank line
@@ -108,13 +112,11 @@ will guide you from there.
 
 # ToDo
 
-- [ ] allow for comments
-  - [ ] indented comments that are in-between some code are currently breaking it
-  - [ ] actually, reverse code and comments to allow
-        for literate programming
+- [ ] allow for end-of-line comments
 - [ ] VS Code extension
   - [ ] file icon
-  - [ ] syntax highlight comments
+  - [ ] syntax highlight code vs comments/natural language
 - [ ] maybe get it out of running as a subprocess so
       it returns things more easily
 - [ ] make a sphinx site
+- [ ] make into a package and push to pypi
