@@ -67,7 +67,8 @@ a parser, but a fancy word for it could be a transpiler.
      notes in the ``initialize`` method will explain how
      to do it.
 3. The syntax highlighter for vs code is
-   [`Hindent Lang`](https://marketplace.visualstudio.com/items?itemName=GrantSmith.hindent-lang)
+   [`Hindent Lang`](https://marketplace.visualstudio.com/items?itemName=GrantSmith.hindent-lang).  You can find
+   it in the normal extensions menu / marketplace.
 
 # Usage
 
