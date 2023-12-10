@@ -115,15 +115,12 @@ will guide you from there.
 
 # ToDo
 
-- [ ] VS Code extension
-  - [ ] file icon
-  - [ ] syntax highlight code vs comments/natural language
 - [ ] allow for end-of-line comments
 - [ ] maybe get it out of running as a subprocess so
       it returns things more easily
 - [ ] make a sphinx site
   - [ ] convert readme to rst (change in pyproject.toml as well)
-- [ ] make into a package and push to conda
+- [ ] push to conda (in addition to pypi)
 
 # Notes For Grant
 
