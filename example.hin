@@ -1,0 +1,209 @@
+
+.
+I think it might be nice to try a programming language with
+the parse tree as the syntax. In particular, using
+hanging indents as the nesting mechanism.  And since
+lisp basically already has the parse tree as its syntax,
+we can think of this as lisp, but instead of parenthesis,
+we use hanging indents.  For
+example, `2 + 2` in regular math is `(+ 2 2)` in lisp, and would be
+in our new method:
+.
+
+display
+  "# Basic Math"
+
+newline
+
+display
+  "2 + 2 = "
+
+display
+  +
+    2
+    2
+newline
+
+.
+The easy way to think about it is to put the result
+of the valuation where the hanging indent started,
+so for example, when `+ 2 2` gets evaluated, the result
+goes where the `+` was
+
+And some other examples would be:
+.
+
+display
+  "(2 + 2) + 2 = "
+
+
+display
+  +
+    +
+      2
+      2
+    2
+
+newline
+
+display
+  "(2 ^ (2 + 2)) + 2 = "
+
+
+display
+  +
+    expt
+      2
+      +
+        2
+        2
+    2
+newline
+
+.
+And we can define variables with:
+.
+
+display
+  "\n# Variables"
+
+newline
+
+define
+  x
+  4
+
+display
+  +
+    2
+    x
+
+newline
+
+.
+And we can handle lists with:
+.
+
+display
+  "\n# Lists"
+newline
+
+display
+  quote
+    2
+      3
+      4
+
+newline
+
+.
+And Functions with:
+.
+
+; scheme function definition
+; (define (procedure-name parameter1 parameter2 ... parameterN)
+;   body-of-the-procedure)
+
+
+display
+  "\n# Functions"
+
+newline
+
+display
+  "The square of 2 is: "
+
+define
+  square
+    x
+  *
+    x
+    x
+
+; and function calls are
+display
+  square
+    2
+
+newline
+
+.
+and conditionals:
+.
+
+; lisp conditional
+; (if (> x 0)
+;     (print "Positive")
+;     (print "Non-Positive"))
+
+display
+  "\n# Conditional"
+
+newline
+
+display
+  if
+    >
+      2
+      0
+    "Positive"
+    "Non-Positive"
+newline
+
+
+.
+and multiline strings:
+.
+
+display
+  "\n# String appending"
+
+newline
+
+display
+  string-append
+    "This is the first line.\n"
+    "And this is the second."
+newline
+
+.
+and a recursion example
+.
+
+; (defun (factorial n)
+;   (if (= n 0)
+;       1
+;       (* n (factorial (- n 1)))))
+
+display
+  "\n# Factorial"
+
+newline
+
+define
+  factorial
+    n
+  if
+    =
+      n
+      0
+    1
+    *
+      n
+      factorial
+        -
+          n
+          1
+
+display
+  "Factorial of 4: "
+
+display
+  factorial
+    4
+newline
+
+.
+The only data structure remaining is the
+hash table
+.

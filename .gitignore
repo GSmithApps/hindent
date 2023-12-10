@@ -4,9 +4,6 @@ __pycache__
 # all files ending in .pyc
 *.pyc
 
-# all files ending in .hin
-*.hin
-
 # all jupyter notebook files
 *.ipynb
 

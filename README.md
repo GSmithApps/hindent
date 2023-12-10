@@ -4,57 +4,76 @@ wherever lisp/scheme uses parenthesis,
 Hindent uses hanging indents.  For example:
 
 ```
-# Hindent
+; Hindent
 
 +
   2
   2
 
-# lisp
+; lisp
 
 (+ 2 2)
+
+; example.hin has more examples
 ```
 
-And some more examples:
+# Example
+
+> **Example code: `example.hin`**
+
+The easiest way to think about it
+is to repeat the following:
+
+- Focus on the the deepest nesting
+  level. This is the current chunk.
+- Follow the chunk upward and leftward
+  to where the nearest dedent
+  is, which we call the lead.
+- Collapse the chunk's newlines
+  and indentation,
+  wrap it in parenthesis,
+  and leave it where the lead was. 
+ 
+Let's do an example step-by-step
 
 ```
-display
-  +
-    2
-    2
-
-(display (+ 2 2))
-```
-
-```
-display
-  car
-    quote
-      1
-        2
-        3
-
-(display (car (quote (1 2 3))))
-```
-
-```
-define
-  x
-  4
-
 +
+  -
+    4
+    1
   2
-  x
+```
 
-(define x 4)
-(+ 2 x)
+Focus on the part with deepest nesting.
+In this case, it is the `4` and `1`.
+Then track upwards to find the
+lead, which is `-`.
+Then collapse, wrap in parenthesis, and
+leave it where the lead was.
+
+```
++
+  (- 4 1)
+  2
+```
+
+Do it again. Focus on the deepest
+nesting. In this case, it is
+`(- 4 1)` and `2`.  Follow
+upward and to the left to find
+the lead, which is `+`.  Collapse,
+wrap in parenthesis, and leave
+where the lead was
+
+```
+(+ (- 4 1) 2)
 ```
 
 # How it works
 
 Hindent simply parses the Hindent code and
 inserts parenthesis where appropriate to convert
-it to lisp/scheme.  So, it is mostly
+to lisp/scheme.  So, it is mostly
 a parser, but a fancy word for it could be a transpiler.
 
 # Installation
@@ -126,5 +145,5 @@ will guide you from there.
 
 # Notes For Grant
 
-`flit build --format wheel`
-`twine upload dist/*`
+- `flit build --format wheel`
+- `twine upload dist/*`
