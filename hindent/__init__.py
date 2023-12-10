@@ -40,7 +40,7 @@ that takes a filename as input, executes the Lisp code in the file, and returns 
 output and error of the execution as a tuple.
 """
 
-__version__ = "2.0.1"
+__version__ = "2.1.0"
 
 from pathlib import Path
 import os
@@ -137,7 +137,7 @@ def _clojure_executor(filename):
 
     # For Clojure, the command is typically 'clojure'
     process = subprocess.run(
-        ["clojure", filename], capture_output=True, text=True
+        ["clojure", "-M", filename], capture_output=True, text=True
     )
     return process.stdout, process.stderr
 

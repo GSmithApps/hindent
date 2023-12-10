@@ -126,13 +126,6 @@ So, I recommend opening up a jupyter notebook. Then, simply start to
 import ``Hindent`` with `import Hindent as h`, and the docstrings/code-hover
 will guide you from there.
 
-> One heads up is that when running, the `newline` and `display` functions
-> are helpful.  If you don't use `display`, then lisp will not output
-> anything. So, if you are experimenting, and you want to see results
-> of what you run, you need to use `display`.
-> And regarding `newline`, if you don't use it, all of the output will be smushed
-> together.
-
 
 # Parsing Spec
 
@@ -187,7 +180,6 @@ languages.  But translating *from* whitespace-sensitive languages
 
 # ToDo
 
-- [ ] make the default clojure instead of scheme
 - [ ] change the verbage from `translate` to something else. I can't think
       of what. It's hard to say. really all it does is remove comments and whitespace
       then add parenthesis.

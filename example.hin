@@ -2,19 +2,19 @@
 Here are some examples of Hindent code
 .
 
-display
+println
   "# Basic Math"
 
-newline
 
-display
+
+println
   "2 + 2 = "
 
-display
+println
   +
     2
     2
-newline
+
 
 .
 The easy way to think about it is to put the result
@@ -25,94 +25,80 @@ goes where the `+` was
 And some other examples would be:
 .
 
-display
+println
   "(2 + 2) + 2 = "
 
 
-display
+println
   +
     +
       2
       2
     2
 
-newline
 
-display
+
+println
   "(2 ^ (2 + 2)) + 2 = "
 
 
-display
+println
   +
-    expt
+    Math/pow
       2
       +
         2
         2
     2
-newline
+
 
 .
 And we can define variables with:
 .
 
-display
+println
   "\n# Variables"
 
-newline
 
-define
+
+def
   x
   4
 
-display
+println
   +
     2
     x
 
-newline
 
-.
-And we can handle lists with:
-.
 
-display
-  "\n# Lists"
-newline
 
-display
-  quote
-    2
-      3
-      4
-
-newline
 
 .
 And Functions with:
 .
 
-display
+println
   "\n# Functions"
 
-newline
 
-display
+
+println
   "The square of 2 is: "
 
-define
+defn
   square
-    x
+  [x]
   *
     x
     x
 
 ; and function calls are
-display
+println
   square
     2
 
-newline
+
 
 .
 and conditionals:
@@ -123,35 +109,35 @@ and conditionals:
 ;     (print "Positive")
 ;     (print "Non-Positive"))
 
-display
+println
   "\n# Conditional"
 
-newline
 
-display
+
+println
   if
     >
       2
       0
     "Positive"
     "Non-Positive"
-newline
+
 
 
 .
 and multiline strings:
 .
 
-display
+println
   "\n# String appending"
 
-newline
 
-display
-  string-append
+
+println
+  str
     "This is the first line.\n"
     "And this is the second."
-newline
+
 
 .
 and a recursion example
@@ -162,14 +148,14 @@ and a recursion example
 ;       1
 ;       (* n (factorial (- n 1)))))
 
-display 
+println 
   "\n# Factorial"
 
-newline
 
-define
+
+defn
   factorial
-    n
+  [n]
   if
     =
       n
@@ -182,14 +168,14 @@ define
           n
           1
 
-display
+println
   "Factorial of 4: "
 
-display
+println
   factorial
     4
 
-newline
+
 
 .
 ================
@@ -199,20 +185,20 @@ Interesting Note
 Because Hindent simply adds parenthesis and does
 nothing else, you can actually write lisp code
 in Hindent and it will work just fine. The one caveat
-is that you can't use any newlines or indentation
+is that you can't use any s or indentation
 in your lisp code, because hindent will think it is meaningful
 For example
 .
 
-display "\n# Lisp in Hindent"
+println "\n# Lisp in Hindent"
 
-(newline)
+()
 
-display "(+ 2 2) = "
+println "(+ 2 2) = "
 
-display (+ 2 2)
+println (+ 2 2)
 
-newline
+
 
 .
 =====================
@@ -225,7 +211,10 @@ it would be by putting a dot character where you
 want the indent to behave
 .
 
-display
+
+println "\n# Overriding the indent"
+
+println
   +
     2
     . ( + 3
@@ -238,4 +227,21 @@ display
 .
 The only data structure remaining is the
 hash table
+.
+
+
+.
+And we can handle lists with:
+.
+
+.
+println
+  "\n# Lists"
+
+
+println
+  '
+    2
+      3
+      4
 .
