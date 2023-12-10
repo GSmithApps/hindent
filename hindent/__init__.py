@@ -337,7 +337,7 @@ class Hindent:
 
         validlines = []
 
-        in_code_block = False
+        in_code_block = True
 
         for i, line in enumerate(lines):
 

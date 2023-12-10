@@ -87,12 +87,15 @@ will guide you from there.
 
 # Parsing Spec
 
-- the transpiler supports literate programming. So, most of the
-  source code is natural language.
-  - to denote a block of code, it will be similar to how markdown
-    does it, but instead of three backticks, it is a lone period.
-    So basically, a lone period on a line toggles between
-    natural language and code (starting with natural language).
+- the transpiler supports literate programming. It does so
+  by putting block comments on equal footing with code. To
+  toggle back and forth between code and block comment,
+  put a lone period on a line.
+  - For reasons of textmate grammars and syntax highlighting,
+    we had to make the file start as code, rather than starting
+    as block comment. We would have preferred it the other way,
+    but we think it's okay.  We're thankful for how awesome vs
+    code and textmate are.
 - the parser/transpiler will put a new line after the source code
   to ensure the final dedent is correct
 - any amount of whitespace that contributes to a blank line
