@@ -119,4 +119,5 @@ will guide you from there.
 - [ ] maybe get it out of running as a subprocess so
       it returns things more easily
 - [ ] make a sphinx site
+  - [ ] convert readme to rst
 - [ ] make into a package and push to pypi
