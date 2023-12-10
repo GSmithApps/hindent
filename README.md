@@ -59,7 +59,7 @@ a parser, but a fancy word for it could be a transpiler.
 
 # Installation
 
-1. Clone this repository or simply grab the python file
+1. `pip install hindent`
 2. Install chez scheme (`brew install chezscheme`)
    and make sure it's on your path by running `chez`.
    - This also works with other lisps or schemes. If
@@ -112,12 +112,17 @@ will guide you from there.
 
 # ToDo
 
-- [ ] allow for end-of-line comments
 - [ ] VS Code extension
   - [ ] file icon
   - [ ] syntax highlight code vs comments/natural language
+- [ ] allow for end-of-line comments
 - [ ] maybe get it out of running as a subprocess so
       it returns things more easily
 - [ ] make a sphinx site
-  - [ ] convert readme to rst
-- [ ] make into a package and push to pypi
+  - [ ] convert readme to rst (change in pyproject.toml as well)
+- [ ] make into a package and push to conda
+
+# Notes For Grant
+
+`flit build --format wheel`
+`twine upload dist/*`

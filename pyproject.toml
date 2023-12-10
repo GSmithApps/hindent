@@ -1,9 +1,18 @@
 [build-system]
-requires = ["flit_core >=2,<4"]
+requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
-[tool.flit.metadata]
-module = "hindent"  # Name of your Python module/package
-author = "Grant Smith"
-author-email = "14.gsmith.14@example.com"
+[project]
+name = "hindent"  # Name of your Python module/package
+authors = [{name = "Grant Smith", email = "14.gsmith.14@gmail.com"}]
+requires-python = ">=3.6"
+dynamic = ["version", "description"]
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
 home-page = "https://github.com/GSmithApps/hindent"
