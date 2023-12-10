@@ -66,6 +66,8 @@ a parser, but a fancy word for it could be a transpiler.
      you want to do that, the
      notes in the ``initialize`` method will explain how
      to do it.
+3. The syntax highlighter for vs code is
+   [`Hindent Lang`](https://marketplace.visualstudio.com/items?itemName=GrantSmith.hindent-lang)
 
 # Usage
 
@@ -82,14 +84,14 @@ will guide you from there.
 > together.
 
 
-
-
 # Parsing Spec
 
 - the transpiler supports literate programming. So, most of the
   source code is natural language.
-  - to denote a block of code, put a lone period on a line before
-    the code, and a lone period on a line after the code.
+  - to denote a block of code, it will be similar to how markdown
+    does it, but instead of three backticks, it is a lone period.
+    So basically, a lone period on a line toggles between
+    natural language and code (starting with natural language).
 - the parser/transpiler will put a new line after the source code
   to ensure the final dedent is correct
 - any amount of whitespace that contributes to a blank line
