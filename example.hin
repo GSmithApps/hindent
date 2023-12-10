@@ -1,13 +1,5 @@
-
 .
-I think it might be nice to try a programming language with
-the parse tree as the syntax. In particular, using
-hanging indents as the nesting mechanism.  And since
-lisp basically already has the parse tree as its syntax,
-we can think of this as lisp, but instead of parenthesis,
-we use hanging indents.  For
-example, `2 + 2` in regular math is `(+ 2 2)` in lisp, and would be
-in our new method:
+Here are some examples of Hindent code
 .
 
 display
@@ -100,11 +92,6 @@ newline
 And Functions with:
 .
 
-; scheme function definition
-; (define (procedure-name parameter1 parameter2 ... parameterN)
-;   body-of-the-procedure)
-
-
 display
   "\n# Functions"
 
@@ -175,7 +162,7 @@ and a recursion example
 ;       1
 ;       (* n (factorial (- n 1)))))
 
-display
+display 
   "\n# Factorial"
 
 newline
@@ -201,7 +188,52 @@ display
 display
   factorial
     4
+
 newline
+
+.
+================
+Interesting Note
+================
+
+Because Hindent simply adds parenthesis and does
+nothing else, you can actually write lisp code
+in Hindent and it will work just fine. The one caveat
+is that you can't use any newlines or indentation
+in your lisp code, because hindent will think it is meaningful
+For example
+.
+
+display "\n# Lisp in Hindent"
+
+(newline)
+
+display "(+ 2 2) = "
+
+display (+ 2 2)
+
+newline
+
+.
+=====================
+overriding the indent
+=====================
+
+You can override the indent and make hindent
+think the indentation is somewhere other than where
+it would be by putting a dot character where you
+want the indent to behave
+.
+
+display
+  +
+    2
+    . ( + 3
+    . 4
+    .     5
+    .   5
+    .         6 )
+
 
 .
 The only data structure remaining is the

@@ -1,5 +1,5 @@
 """
-Provides functions to transpile and/or execute Hindent code.
+Provides functions to translate and/or execute Hindent code.
 
 >>> import hindent as h
 >>> h.run_file('./your-file.hin')
@@ -22,19 +22,19 @@ run_file(file_path: Path)
 run_string(hindent_code: str)
     Executes and retrieves the output of Lisp code from a given string.
 
-transpile_file(file_path: Path)
-    Transpiles Hindent code from a specified file to Scheme code.
+translate_file(file_path: Path)
+    Translates Hindent code from a specified file.
 
-transpile_string(hindent_code: str)
-    Transpiles Hindent code to Scheme code by adding appropriate parentheses based on indentation.
+translate_string(hindent_code: str)
+    Translates Hindent code by adding appropriate parentheses based on indentation.
 
 execute_lisp(lisp_code: str)
-    Executes the given Scheme code.
+    Executes the given lisp code.
 
 Using a custom Lisp executor
 ----------------------------
 
-The default Lisp executor uses Chez Scheme to execute Scheme code. However, you can
+The default Lisp executor uses clojure. However, you can
 use a custom Lisp executor by setting the `lisp_executor` variable to a function
 that takes a filename as input, executes the Lisp code in the file, and returns the
 output and error of the execution as a tuple.
@@ -47,16 +47,15 @@ import os
 import subprocess
 
 
-_SAVED_FILE_SCM = "SAVED_FILE.scm"
+_SAVED_FILE_TXT = "SAVED_FILE.txt"
 
 
 # This class is just for type hinting for a function/callback
 class LispExecutor:
     """
-    A callback function type that executes Lisp (Scheme) code from a given filename.
+    A callback function type that executes Lisp code from a given filename.
 
-    This is intended to be used as a function type for custom executors, with a default
-    implementation using Chez Scheme.
+    This is intended to be used as a function type for custom executors.
 
     The function should take a filename as input, execute the Lisp code in the file, and
     return the output and error of the execution as a tuple.
@@ -75,14 +74,15 @@ class LispExecutor:
     Examples
     --------
 
-    >>> def execute_scheme_code(filename):
-    ...     # For Chez Scheme, the command is typically 'scheme --script'
-    ...     process = subprocess.run(['chez', '--script', filename], capture_output=True, text=True)
+    >>> def _clojure_executor(filename):
+    ...     process = subprocess.run(
+    ...         ["clojure", filename], capture_output=True, text=True
+    ...     )
     ...     return process.stdout, process.stderr
     """
 
 
-def _default_lisp_executor(filename):
+def _scheme_executor(filename):
     """
     Default executor function for executing Scheme code using Chez Scheme.
 
@@ -112,7 +112,37 @@ def _default_lisp_executor(filename):
     return process.stdout, process.stderr
 
 
-lisp_executor: LispExecutor = _default_lisp_executor
+def _clojure_executor(filename):
+    """
+    Executor function for executing Clojure code using Clojure.
+
+    This function executes Clojure code from a specified file using Clojure, capturing
+    and returning the standard output and standard error.
+
+    Parameters
+    ----------
+    filename : str
+        The path to the Clojure file to be executed.
+
+    Returns
+    -------
+    tuple
+        A tuple containing two elements: the standard output and standard error from the executed Clojure code.
+
+    Examples
+    --------
+    >>> stdout, stderr = _clojure_executor("example.clj")
+    >>> print(stdout)
+    """
+
+    # For Clojure, the command is typically 'clojure'
+    process = subprocess.run(
+        ["clojure", filename], capture_output=True, text=True
+    )
+    return process.stdout, process.stderr
+
+
+lisp_executor: LispExecutor = _clojure_executor
 
 
 def run_file(file_path: Path) -> tuple:
@@ -171,7 +201,7 @@ def run_string(hindent_code: str) -> tuple:
     """
 
     # Add parentheses with the fixed function and return the result
-    parenthesized_code_fixed = transpile_string(hindent_code)
+    parenthesized_code_fixed = translate_string(hindent_code)
 
     # Example usage
     output, error = execute_lisp(parenthesized_code_fixed)
@@ -180,51 +210,51 @@ def run_string(hindent_code: str) -> tuple:
 
 
 
-def transpile_file(file_path: Path) -> str:
+def translate_file(file_path: Path) -> str:
     """
-    Transpiles Hindent code from a specified file to Scheme code.
+    Translates Hindent code from a specified file.
 
-    This method reads the Hindent code from the given file, transpiles it to Scheme code
-    by adding appropriate parentheses based on indentation, and returns the transpiled
-    Scheme code.
+    This method reads the Hindent code from the given file, translates it
+    by adding parentheses based on indentation, and returns the translated
+    code.
 
     Parameters
     ----------
     file_path : Path
-        The path to the file containing the Hindent code to be transpiled.
+        The path to the file containing the Hindent code to be translated.
 
     Returns
     -------
     str
-        The transpiled Scheme code.
+        The translated code.
 
     Examples
     --------
-    >>> scheme_code = h.transpile_file('./example.hin')
-    >>> print(scheme_code)
+    >>> lisp_code = h.translate_file('./example.hin')
+    >>> print(lisp_code)
     """
-    return transpile_string(
+    return translate_string(
         _get_text_from_file_path(file_path),
     )
 
 
-def transpile_string(hindent_code: str) -> str:
+def translate_string(hindent_code: str) -> str:
     """
-    Transpiles Hindent code to Scheme code by adding appropriate parentheses based on indentation.
+    Translates Hindent code to lisp code by adding appropriate parentheses based on indentation.
 
     This method processes Hindent code, which uses indentation to denote structure,
-    and converts it to valid Scheme code by adding parentheses according to the
+    and converts it to valid lisp code by adding parentheses according to the
     indentation levels.
 
     Parameters
     ----------
     code : str
-        The Hindent code to be transpiled.
+        The Hindent code to be translated.
 
     Returns
     -------
     str
-        The transpiled Scheme code.
+        The translated lisp code.
 
     Examples
     --------
@@ -233,8 +263,8 @@ def transpile_string(hindent_code: str) -> str:
     ...     "  2\\n"
     ...     ""
     ... )
-    >>> scheme_code = h.transpile(hindent_code)
-    >>> print(scheme_code)
+    >>> lisp_code = h.translate_string(hindent_code)
+    >>> print(lisp_code)
     """
 
     # Split the code into lines
@@ -279,6 +309,13 @@ def transpile_string(hindent_code: str) -> str:
         current_indent = indentation_level(line)
         next_indent = indentation_level(validlines[i + 1])
 
+        # if a line starts with period, then remove the period
+        # after the indentation is calculated. This lets the user
+        # use the period to modify the indentation level of a line.
+        # an example is given in `example.hin`
+        if line.lstrip()[:2] == ". ":
+            line = line.lstrip()[1:]
+
         # Determine the required parentheses
         if next_indent > current_indent:
             line = "(" + line
@@ -286,7 +323,7 @@ def transpile_string(hindent_code: str) -> str:
             line += ")" * (current_indent - next_indent)
 
         # Special case: same indentation level
-        if next_indent == 0 and current_indent == 0:
+        if next_indent == 0 and current_indent == 0 and not (line.lstrip()[0] == "(" and line.rstrip()[-1] == ")"):
             line = "(" + line + ")"
 
         processed_lines.append(line)
@@ -302,31 +339,27 @@ def _save_code_to_file(code, filename):
 
 def execute_lisp(lisp_code: str) -> tuple:
     """
-    Executes the given Scheme code after saving it to a temporary file.
-
-    This method is used internally to execute Scheme code. It saves the provided
-    Scheme code to a temporary file, executes the file using the configured Lisp executor,
-    and then deletes the file.
+    Executes the given lisp code.
 
     Parameters
     ----------
     parenthesized_code_fixed : str
-        The Scheme code to be executed.
+        The lisp code to be executed.
 
     Returns
     -------
     tuple
-        A tuple containing the standard output and standard error from the executed Scheme code.
+        A tuple containing the standard output and standard error from the executed lisp code.
     """
 
-    _save_code_to_file(lisp_code, _SAVED_FILE_SCM)
-    output, error = lisp_executor(_SAVED_FILE_SCM)
+    _save_code_to_file(lisp_code, _SAVED_FILE_TXT)
+    output, error = lisp_executor(_SAVED_FILE_TXT)
 
     print(output)
     print(error)
 
     # delete file
-    os.remove(_SAVED_FILE_SCM)
+    os.remove(_SAVED_FILE_TXT)
     return output, error
 
 
