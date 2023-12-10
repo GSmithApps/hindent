@@ -99,6 +99,22 @@ println
     2
 
 
+.
+And we can handle lists with:
+.
+
+
+println
+  "\n# Lists"
+
+
+println
+  list
+    2
+    3
+    4
+
+
 
 .
 and conditionals:
@@ -224,24 +240,29 @@ println
     .         6 )
 
 
+
 .
 The only data structure remaining is the
-hash table
+hash table.  As you can see, the indent
+override is helpful here
 .
 
+println "\n# Hash Tables"
 
-.
-And we can handle lists with:
-.
+def my-map {:a 1, :b 2, :c 3}
 
-.
-println
-  "\n# Lists"
+; Using the map as a function
+println (my-map :a)  ; => 1
 
 
-println
-  '
-    2
-      3
-      4
-.
+def
+  my-map-g
+  {
+  . :a 1,
+  . :b 2,
+  . :c 3
+  }
+
+; Using the map as a function
+println (my-map :b)  ; => 1
+
