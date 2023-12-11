@@ -1,12 +1,16 @@
 Hindent is a new programming language.
+It's purpose is to use
+whitespace and indentation to insert implied
+parenthesis, which means you don't have to write
+the parenthesis, which makes the code look cleaner.
+That might not sound like much, but you might
+be surprised at the difference it makes.
 
 For example, here
 is some Hindent code... it's nice and pretty
 
 ```
-+
-  2
-  2
++ 2 2
 ```
 
 And the corresponding lisp code is
@@ -46,9 +50,15 @@ will guide you from there.
 
 # Parsing Spec
 
-Hindent is really just a syntax wrapper around lisps.
-It simply allows you to use hanging indents as
-a way to nest parenthesis. Here is how it works
+Hindent is really just a syntax wrapper.
+It simply allows you to use indents as
+a way to nest parenthesis. 
+
+It is extra handy with lisps because
+they use a lot of parenthesis. So that's why
+most of the examples are lisp.
+
+Here is how it works
 
 ## Pre-Parse
 
@@ -63,11 +73,11 @@ a way to nest parenthesis. Here is how it works
     code and textmate are.
 - the parser/translater will put a new line after the source code
   to ensure the final dedent is correct
-- any amount of whitespace that contributes to a blank line
-  (other than the last line) should be replaced with a single
-  new line character. For example, `\n\n\n` should be replaced
-  with `\n`, and `\n   \n` should also be replaced with `\n`
 - lines that start with `;` are comments and will be ignored
+- any amount of whitespace that creates at least one line
+  of only whitespace will be converted to `\n\n`.
+  For example, `\n\n\n` should be replaced
+  with `\n\n`, and `\n   \n` should also be replaced with `\n\n`
 
 ## Main Parsing
 
@@ -75,13 +85,17 @@ a way to nest parenthesis. Here is how it works
 - Then divide by 2 to determine the indentation level
 - then, for each line find the difference in indentation level
   between that line and the following line
-  - if the indentation level goes up, then add an opening parenthesis before the current line
+  - if the indentation level goes up, then after the current line, add opening parenthesis
     according to the number of indents.
-  - if the indentation level goes down, then add a closing parenthesis after the current line
+  - if the indentation level goes down, then after
+    the current line, add closing parenthesis
     according to the number of dedents.
   - if the indentation level remains the same, do nothing
-- This is best seen in the examples in `/examples/example.hin`.
-  To allow the user to pick an indentation level
+- The notes in this bullet are
+  best illustrated with examples.  There
+  are some good ones in `/examples/example.hin`.
+  Anyway, here is an attempt at an explanation:
+  to allow the user to pick an indentation level
   other than what the textual code would otherwise look like,
   the user can lead a line with `. `.  This forces
   Hindent to treat the line's indentation where the `.` is

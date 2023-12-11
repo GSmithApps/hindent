@@ -282,7 +282,7 @@ def translate_string(hindent_code: str) -> str:
     # to remove the comment blocks
     for i, line in enumerate(lines):
 
-        # Handle code blocks
+        # Handle code/comment blocks
         if line.rstrip() == ".":
             in_code_block = not in_code_block
             continue
@@ -327,7 +327,7 @@ def translate_string(hindent_code: str) -> str:
 
         # Determine the required parentheses
         if next_indent > current_indent:
-            line = ("("  * (next_indent - current_indent)) + line
+            line = line + ("("  * (next_indent - current_indent)) 
         elif next_indent < current_indent:
             line = line + (")" * (current_indent - next_indent))
 
