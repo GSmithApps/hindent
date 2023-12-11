@@ -180,6 +180,9 @@ languages.  But translating *from* whitespace-sensitive languages
 
 # ToDo
 
+- [ ] if a function doesn't have any argument, and
+      we want to call it, we still need to wrap it in
+      parens. see the `clojure-examples.hin` for an example
 - [ ] change the verbage from `translate` to something else. I can't think
       of what. It's hard to say. really all it does is remove comments and whitespace
       then add parenthesis.
@@ -188,6 +191,18 @@ languages.  But translating *from* whitespace-sensitive languages
 - [ ] make a sphinx site
   - [ ] convert readme to rst (change in pyproject.toml as well)
 - [ ] push to conda (in addition to pypi)
+
+# unsolved
+
+I'm not sure if this syntax retains lisp's
+homoiconicity. That's something to think more about
+
+# clojure replacements
+
+- list for lists
+- vector for vectors
+- hash-map for maps
+- set or hash-set for sets
 
 # Notes For Grant
 
