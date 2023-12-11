@@ -22,7 +22,7 @@ existing lisp interpreters/compilers.
 
 More details are given in the
 parsing section below, and more examples
-are in `example.hin`.
+are in `/examples/example.hin`.
 
 # Installation
 
@@ -80,13 +80,13 @@ a way to nest parenthesis. Here is how it works
   - if the indentation level goes down, then add a closing parenthesis after the current line
     according to the number of dedents.
   - if the indentation level remains the same, do nothing
-- This is best seen in the examples in `example.hin`.
+- This is best seen in the examples in `/examples/example.hin`.
   To allow the user to pick an indentation level
   other than what the textual code would otherwise look like,
   the user can lead a line with `. `.  This forces
   Hindent to treat the line's indentation where the `.` is
   rather than where the rest of the code (or lack thereof) is.
-  Again, please see the examples in `example.hin`.
+  Again, please see the examples in `/examples/example.hin`.
 
 # Miscellaneous Thoughts
 

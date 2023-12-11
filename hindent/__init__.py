@@ -230,7 +230,7 @@ def translate_file(file_path: Path) -> str:
 
     Examples
     --------
-    >>> lisp_code = h.translate_file('./example.hin')
+    >>> lisp_code = h.translate_file('./examples/example.hin')
     >>> print(lisp_code)
     """
     return translate_string(
@@ -320,7 +320,7 @@ def translate_string(hindent_code: str) -> str:
         # the examples) then remove the period
         # after the indentation is calculated. This lets the user
         # use the period to modify the indentation level of a line.
-        # an example is given in `example.hin`.  This is also
+        # an example is given in `examples/example.hin`.  This is also
         # used to evaluate functions that have no arguments.
         if line.lstrip()[:2] == ". " or line.lstrip() == ".":
             line = line.lstrip()[1:]
@@ -390,7 +390,7 @@ def _get_text_from_file_path(file_path: Path) -> str:
 
     Examples
     --------
-    >>> content = h._get_text_from_file_path('./example.hin')
+    >>> content = h._get_text_from_file_path('./examples/example.hin')
     >>> print(content)
     """
     file_path = Path(file_path)
