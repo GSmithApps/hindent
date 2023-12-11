@@ -274,30 +274,25 @@ def translate_string(hindent_code: str) -> str:
 
     in_code_block = True
 
-    # Remove blank lines, lines with only whitespace, and comments.
-    # I guess it isn't strictly necessary to remove the blank lines and lines with only whitespace,
-    # but I think it will reduce unexpected behavior on indentation
-    # and since the line and in-line comments use the same marker as lisp code, it
-    # isn't totally necessary to remove those. But it is definitely
-    # to remove the comment blocks
+    # remove comment blocks and whole line comments.
     for i, line in enumerate(lines):
 
         # Handle code/comment blocks
-        if line.rstrip() == ".":
+        if line.rstrip() == ",":
             in_code_block = not in_code_block
             continue
 
         if not in_code_block:
             continue
 
-        # Handle blank lines or lines with only whitespace (except the last line)
-        # guard clause to exit early if the line is whitespace or a comment
-        if line.strip() == "" or line.strip()[0] == ";":
+        # We want to remove the comments, so we don't want to add them to the
+        # list of valid lines, so we simply skip them with a continue statement/guard clause
+        if line.strip()[0] == ";":
             continue
 
         validlines.append(line)
 
-    validlines.append("\n")  # Add a newline to the end
+    validlines.append("\n")  # Add a newline to the end to ensure the final outdent is correct
 
     # Function to calculate the indentation level of a line
     def indentation_level(line):
@@ -308,12 +303,14 @@ def translate_string(hindent_code: str) -> str:
 
     for i, line in enumerate(validlines[:-1]):
 
+        next_line = validlines[i + 1]
+
         # Remove any end-of-line comments
         line = _remove_potential_end_of_line_comment(line)
 
         # Calculate the current and next line's indentation levels
         current_indent = indentation_level(line)
-        next_indent = indentation_level(validlines[i + 1])
+        next_indent = indentation_level(next_line)
 
         # if a line starts with `. ` (or, in the case that a period is
         # the only thing on the line... some examples of use cases are in
@@ -326,14 +323,15 @@ def translate_string(hindent_code: str) -> str:
             line = line.lstrip()[1:]
 
         # Determine the required parentheses
-        if next_indent > current_indent:
+        if next_indent == 0 and current_indent == 0:
+            if line.strip() == "" and next_line.strip() != "":
+                line = "("
+            elif line.strip() != "" and next_line.strip() == "":
+                line = line + ")"
+        elif next_indent > current_indent:
             line = line + ("("  * (next_indent - current_indent)) 
         elif next_indent < current_indent:
             line = line + (")" * (current_indent - next_indent))
-
-        # Special case: same indentation level
-        # if next_indent == 0 and current_indent == 0 and not (line.lstrip()[0] == "(" and line.rstrip()[-1] == ")"):
-        #     line = "(" + line + ")"
 
         processed_lines.append(line)
 

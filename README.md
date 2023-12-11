@@ -65,7 +65,7 @@ Here is how it works
 - the translater supports literate programming. It does so
   by putting block comments on equal footing with code. To
   toggle back and forth between code and block comment,
-  put a lone period on a line.
+  put a lone comma on a line.
   - For reasons of textmate grammars and syntax highlighting,
     we had to make the file start as code, rather than starting
     as block comment. We would have preferred it the other way,
@@ -74,10 +74,7 @@ Here is how it works
 - the parser/translater will put a new line after the source code
   to ensure the final dedent is correct
 - lines that start with `;` are comments and will be ignored
-- any amount of whitespace that creates at least one line
-  of only whitespace will be converted to `\n\n`.
-  For example, `\n\n\n` should be replaced
-  with `\n\n`, and `\n   \n` should also be replaced with `\n\n`
+
 
 ## Main Parsing
 
@@ -120,6 +117,9 @@ languages.  But translating *from* whitespace-sensitive languages
 
 # ToDo
 
+- [ ] figure out how to process whitespace and
+      empty lines in the new setup
+      - [ ] rewrite all the example code.
 - [ ] redo the example code for map
 - [ ] change the verbage from `translate` to something else. I can't think
       of what. It's hard to say. really all it does is remove comments and whitespace
