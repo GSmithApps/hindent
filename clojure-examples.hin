@@ -12,5 +12,7 @@ def
     []
     "hello world"
 
-println (hello)
+println
+  hello
+    .
 

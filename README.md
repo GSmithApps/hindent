@@ -1,111 +1,37 @@
-Hindent is a syntax wrapper around lisps.
+Hindent is a new programming language,
+and I think you might like it.
+
+Now that I have your attention,
+Hindent is really just a syntax wrapper around lisps.
 It simply allows you to use hanging indents as
-a way to nest parenthesis. For example:
+a way to nest parenthesis. For example, here
+is some Hindent code... it's nice and pretty
 
 ```
-; Hindent
-
 +
   2
   2
+```
 
-; lisp
+And the corresponding lisp code is
 
+```
 (+ 2 2)
-
-; example.hin has more examples
 ```
 
-# Example
+Hindent (as an implementation)
+interprets Hindent code by translating
+it to lisp then executing it using
+existing lisp interpreters/compilers.
+You can also simply translate it
+to lisp if you want, but the usual
+use case is to execute the Hindent
+code.
 
-> **Example code: `example.hin`**
+More details are given in the
+parsing section below.
 
-The easiest way to think about it
-is to repeat the following:
-
-- Focus on the the deepest nesting
-  level. This is the current chunk.
-- Follow the chunk upward and leftward
-  to where the nearest dedent
-  is, which we call the lead.
-- Collapse the chunk's newlines
-  and indentation,
-  wrap it in parenthesis,
-  and leave it where the lead was. 
- 
-Let's do an example step-by-step
-
-```
-+
-  -
-    4
-    1
-  2
-```
-
-Focus on the part with deepest nesting.
-In this case, it is the `4` and `1`.
-Then track upwards to find the
-lead, which is `-`.
-Then collapse, wrap in parenthesis, and
-leave it where the lead was.
-
-```
-+
-  (- 4 1)
-  2
-```
-
-Do it again. Focus on the deepest
-nesting. In this case, it is
-`(- 4 1)` and `2`.  Follow
-upward and to the left to find
-the lead, which is `+`.  Collapse,
-wrap in parenthesis, and leave
-where the lead was
-
-```
-(+ (- 4 1) 2)
-```
-
-Or another way to think about it is
-to do the same thing, but simply insert
-the parenthesis instead of collapsing. For example
-
-```
-+
-  -
-    4
-    1
-  2
-
-; goes to
-
-+
-  (-
-    4
-    1)
-  2
-
-; which goes to
-
-(+
-  (-
-    4
-    1)
-  2)
-
-```
-
-It's the same either way because the lisps
-we're translating to don't mind whitespace.
-
-# How it works
-
-Hindent simply parses the Hindent code and
-inserts parenthesis according to the specification.
-And as a side feature, it also will let you run that
-code in a lisp if you want to.
+> **More Examples**: `example.hin` 
 
 # Installation
 
@@ -129,6 +55,8 @@ will guide you from there.
 
 # Parsing Spec
 
+## Pre-Parse
+
 - the translater supports literate programming. It does so
   by putting block comments on equal footing with code. To
   toggle back and forth between code and block comment,
@@ -145,22 +73,25 @@ will guide you from there.
   new line character. For example, `\n\n\n` should be replaced
   with `\n`, and `\n   \n` should also be replaced with `\n`
 - lines that start with `;` are comments and will be ignored
+
+## Main Parsing
+
 - calculate the number of spaces each line starts with.
 - Then divide by 2 to determine the indentation level
 - then, for each line find the difference in indentation level
   between that line and the following line
-  - if the indentation level goes up one, then add an opening parenthesis before the line
-  - if the indentation level goes down, then add a closing parenthesis after the line
+  - if the indentation level goes up, then add an opening parenthesis before the current line
+    according to the number of indents.
+  - if the indentation level goes down, then add a closing parenthesis after the current line
     according to the number of dedents.
-  - if the indentation level remains the same, then we have to check one more thing:
-    - if the current indentation level (and also the indentation level of the following line)
-      is at 0, and it isn't already wrapped in parenthesis, then wrap the current line in parenthesis
-    - if the current indentation level (and also the indentation level of the following line)
-      is nonzero, then do nothing
-- to allow the user to override the indenting and indent the code without
-  hindent paying attention to the indent, you can put a `. ` before
-  a line of code at the indent level you want that code to be treated as.
-  There is an example in `example.hin`
+  - if the indentation level remains the same, do nothing
+- This is best seen in the examples in `example.hin`.
+  To allow the user to pick an indentation level
+  other than what the textual code would otherwise look like,
+  the user can lead a line with `. `.  This forces
+  Hindent to treat the line's indentation where the `.` is
+  rather than where the rest of the code (or lack thereof) is.
+  Again, please see the examples in `example.hin`.
 
 # Miscellaneous Thoughts
 
@@ -180,9 +111,7 @@ languages.  But translating *from* whitespace-sensitive languages
 
 # ToDo
 
-- [ ] if a function doesn't have any argument, and
-      we want to call it, we still need to wrap it in
-      parens. see the `clojure-examples.hin` for an example
+- [ ] redo the example code for map
 - [ ] change the verbage from `translate` to something else. I can't think
       of what. It's hard to say. really all it does is remove comments and whitespace
       then add parenthesis.

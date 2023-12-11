@@ -191,31 +191,6 @@ println
   factorial
     4
 
-
-
-.
-================
-Interesting Note
-================
-
-Because Hindent simply adds parenthesis and does
-nothing else, you can actually write lisp code
-in Hindent and it will work just fine. The one caveat
-is that you can't use any s or indentation
-in your lisp code, because hindent will think it is meaningful
-For example
-.
-
-println "\n# Lisp in Hindent"
-
-()
-
-println "(+ 2 2) = "
-
-println (+ 2 2)
-
-
-
 .
 =====================
 overriding the indent
@@ -228,16 +203,86 @@ want the indent to behave
 .
 
 
-println "\n# Overriding the indent"
+println
+  "\n# Overriding the indent with `.`"
 
 println
   +
-    2
-    . ( + 3
+    .  3
     . 4
     .     5
     .   5
-    .         6 )
+    .         6 
+
+.
+A beautiful and powerful use case of that is to
+wrap a function in parenthesis.
+
+the following are all equivalent. Note
+the use of the dot in the last one.
+.
+
+println
+  "\n# More dot overriding"
+
+println
+  "some stuff"
+
+(println "some stuff")
+
+println "some stuff"
+  .
+
+.
+and here is the most important application...
+when a function accepts no arguments. Without
+the ability to use the dot notation, we would have
+no option but to fall back to the the lisp
+syntax of wrapping the function in parenthesis
+.
+
+println "\n# Even more dot overriding"
+  .
+
+; here is an example of a function with no arguments
+def
+  hello
+  fn
+    []
+    "hello world"
+
+; without the dot, we would have no option but
+; to wrap the function in parenthesis
+println
+  (hello)
+
+; but with the dot, we can write it like this
+println
+  hello
+    .
+
+
+.
+================
+Interesting Note
+================
+
+Because Hindent simply adds parenthesis and does
+nothing else, you can actually write lisp code
+in Hindent and it will work just fine. The one caveat
+is that you can't use any newlines or indentation
+in your lisp code, because hindent will think it is meaningful.
+
+For example
+.
+
+println "\n# Lisp code in Hindent"
+  .
+
+println (+ 2 2)
+  .
+
+(println "look ma, no hands!")
 
 
 
@@ -248,8 +293,10 @@ override is helpful here
 .
 
 println "\n# Hash Tables"
+  .
 
-def my-map {:a 1, :b 2, :c 3}
+def
+  my-map {:a 1, :b 2, :c 3}
 
 ; Using the map as a function
 println (my-map :a)  ; => 1
@@ -264,5 +311,6 @@ def
   }
 
 ; Using the map as a function
-println (my-map :b)  ; => 1
+println
+  (my-map :b)  ; => 1
 

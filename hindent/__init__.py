@@ -40,7 +40,7 @@ that takes a filename as input, executes the Lisp code in the file, and returns 
 output and error of the execution as a tuple.
 """
 
-__version__ = "2.1.0"
+__version__ = "3.0.1"
 
 from pathlib import Path
 import os
@@ -274,6 +274,12 @@ def translate_string(hindent_code: str) -> str:
 
     in_code_block = True
 
+    # Remove blank lines, lines with only whitespace, and comments.
+    # I guess it isn't strictly necessary to remove the blank lines and lines with only whitespace,
+    # but I think it will reduce unexpected behavior on indentation
+    # and since the line and in-line comments use the same marker as lisp code, it
+    # isn't totally necessary to remove those. But it is definitely
+    # to remove the comment blocks
     for i, line in enumerate(lines):
 
         # Handle code blocks
@@ -309,22 +315,25 @@ def translate_string(hindent_code: str) -> str:
         current_indent = indentation_level(line)
         next_indent = indentation_level(validlines[i + 1])
 
-        # if a line starts with period, then remove the period
+        # if a line starts with `. ` (or, in the case that a period is
+        # the only thing on the line... some examples of use cases are in
+        # the examples) then remove the period
         # after the indentation is calculated. This lets the user
         # use the period to modify the indentation level of a line.
-        # an example is given in `example.hin`
-        if line.lstrip()[:2] == ". ":
+        # an example is given in `example.hin`.  This is also
+        # used to evaluate functions that have no arguments.
+        if line.lstrip()[:2] == ". " or line.lstrip() == ".":
             line = line.lstrip()[1:]
 
         # Determine the required parentheses
         if next_indent > current_indent:
-            line = "(" + line
+            line = ("("  * (next_indent - current_indent)) + line
         elif next_indent < current_indent:
-            line += ")" * (current_indent - next_indent)
+            line = line + (")" * (current_indent - next_indent))
 
         # Special case: same indentation level
-        if next_indent == 0 and current_indent == 0 and not (line.lstrip()[0] == "(" and line.rstrip()[-1] == ")"):
-            line = "(" + line + ")"
+        # if next_indent == 0 and current_indent == 0 and not (line.lstrip()[0] == "(" and line.rstrip()[-1] == ")"):
+        #     line = "(" + line + ")"
 
         processed_lines.append(line)
 
