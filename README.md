@@ -1,10 +1,6 @@
-Hindent is a new programming language,
-and I think you might like it.
+Hindent is a new programming language.
 
-Now that I have your attention,
-Hindent is really just a syntax wrapper around lisps.
-It simply allows you to use hanging indents as
-a way to nest parenthesis. For example, here
+For example, here
 is some Hindent code... it's nice and pretty
 
 ```
@@ -19,26 +15,21 @@ And the corresponding lisp code is
 (+ 2 2)
 ```
 
-Hindent (as an implementation)
-interprets Hindent code by translating
+The Hindent interpreter executes
+Hindent code by translating
 it to lisp then executing it using
 existing lisp interpreters/compilers.
-You can also simply translate it
-to lisp if you want, but the usual
-use case is to execute the Hindent
-code.
 
 More details are given in the
-parsing section below.
-
-> **More Examples**: `example.hin` 
+parsing section below, and more examples
+are in `example.hin`.
 
 # Installation
 
 1. `pip install hindent`
 2. [Install clojure](https://clojure.org/guides/install_clojure#java)
-   and make sure it's on your path by running `clojure -Sdescribe`.
-   - This also works with other lisps or schemes. If
+   (and Java) and make sure clojure is on your path by running `clojure -Sdescribe`.
+   - This also works with lisps other than clojure. If
      you want to do that, the
      notes in the module dosctrings explain how to use a different lisp
 3. The syntax highlighter for vs code is
@@ -49,11 +40,15 @@ parsing section below.
 
 I think a nice way to interactively run programs is with jupyter.
 So, I recommend opening up a jupyter notebook. Then, simply start to
-import ``Hindent`` with `import Hindent as h`, and the docstrings/code-hover
+import ``Hindent`` with `import hindent as h`, and the docstrings/code-hover
 will guide you from there.
 
 
 # Parsing Spec
+
+Hindent is really just a syntax wrapper around lisps.
+It simply allows you to use hanging indents as
+a way to nest parenthesis. Here is how it works
 
 ## Pre-Parse
 
