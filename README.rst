@@ -2,8 +2,10 @@
     :target: https://hindent.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+`Docs are here <https://hindent.readthedocs.io/en/latest/index.html>`_
+
 Hindent is a new programming language.
-It's purpose is to make code more readable by
+Its purpose is to make code more readable by
 using whitespace and indentation instead of
 nesting parenthesis.
 That might not sound like much, but you might
