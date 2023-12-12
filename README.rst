@@ -1,3 +1,7 @@
+.. image:: https://readthedocs.org/projects/hindent/badge/?version=latest
+    :target: https://hindent.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 Hindent is a new programming language.
 It's purpose is to make code more readable by
 using whitespace and indentation instead of
@@ -16,7 +20,7 @@ is some Hindent code... it's nice and pretty.
 
 
 There are more examples in 
-[``/examples/example.hin``](https://github.com/GSmithApps/hindent/blob/main/examples/example.hin).
+`/examples/example.hin <https://github.com/GSmithApps/hindent/blob/main/examples/example.hin>`_.
 
 There are more details in the Explanation section below.
 
@@ -25,7 +29,7 @@ Installation
 ============
 
 1. ``pip install hindent``
-2. [Install clojure](https://clojure.org/guides/install_clojure#java)
+2. `Install clojure <https://clojure.org/guides/install_clojure#java>`_
    (and Java) and make sure clojure is on your path by running ``clojure -Sdescribe``.
 
    - This also works with lisps other than clojure. If
