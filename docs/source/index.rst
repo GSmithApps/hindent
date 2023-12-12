@@ -6,6 +6,10 @@
 Welcome to Hindent's documentation!
 ===================================
 
+.. image:: https://readthedocs.org/projects/hindent/badge/?version=latest
+    :target: https://hindent.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
