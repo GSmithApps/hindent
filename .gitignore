@@ -9,3 +9,6 @@ __pycache__
 
 # dist folder
 dist/
+
+# docs/build folder
+docs/build/

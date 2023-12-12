@@ -144,7 +144,9 @@ ToDo
 
 - [ ] figure out how to process whitespace and
       empty lines in the new setup
-      - [ ] rewrite all the example code.
+      - [ ] rewrite all the example code. 
+- [ ] a lot of the code in the doctrings uses
+      the old setup. rewrite it
 - [ ] redo the example code for map
 - [ ] change the verbage from ``translate`` to something else. I can't think
       of what. It's hard to say. really all it does is remove comments and whitespace
