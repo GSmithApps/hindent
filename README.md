@@ -130,6 +130,12 @@ languages.  But translating *from* whitespace-sensitive languages
   - [ ] convert readme to rst (change in pyproject.toml as well)
 - [ ] push to conda (in addition to pypi)
 
+# Caveat
+
+You can't write regular lisp code on indent 0
+or at the beginning of a code block.
+it will wrap in parenthesis
+
 # unsolved
 
 I'm not sure if this syntax retains lisp's

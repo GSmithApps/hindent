@@ -1,18 +1,17 @@
-.
+,
 These are some examples from the
 clojure website.
 
 You can find them here:
 https://clojure.org/about/functional_programming
-.
+,
 
 def
-  hello
+hello
   fn
-    []
-    "hello world"
+  []
+  "hello world"
 
 println
   hello
-    .
 

@@ -1,197 +1,178 @@
-.
+,
 Here are some examples of Hindent code
-.
+,
 
 println
-  "# Basic Math"
+"# Basic Math"
 
 
 
-println
-  "2 + 2 = "
+println "2 + 2 = "
+
 
 println
   +
-    2
-    2
+  2
+  2
 
 
-.
-The easy way to think about it is to put the result
-of the valuation where the hanging indent started,
-so for example, when `+ 2 2` gets evaluated, the result
-goes where the `+` was
-
+,
 And some other examples would be:
-.
+,
 
-println
-  "(2 + 2) + 2 = "
+println "(2 + 2) + 2 = "
 
 
 println
   +
     +
-      2
-      2
     2
+    2
+  2
 
 
 
 println
-  "(2 ^ (2 + 2)) + 2 = "
+"(2 ^ (2 + 2)) + 2 = "
 
 
 println
   +
-    Math/pow
-      2
-      +
-        2
-        2
-    2
+    Math/pow 2
+      + 2 2
+  2
 
 
-.
+
+,
+Because Hindent simply adds parenthesis and does
+nothing else, you can actually write lisp code
+in Hindent and it will work just fine. The one caveat
+is that you can't use any newlines or indentation
+in your lisp code, because hindent will think it is meaningful.
+
+For example
+,
+
+println "\n# Lisp code in Hindent"
+
+println (+ 2 2)
+
+,
 And we can define variables with:
-.
+,
+
+
+println "\n# Variables"
+
+def x 4
 
 println
-  "\n# Variables"
+  + 2 x
 
-
-
-def
-  x
-  4
-
-println
-  +
-    2
-    x
-
-
-
-
-
-.
+,
 And Functions with:
-.
+,
 
-println
-  "\n# Functions"
+println "\n# Functions"
 
-
-
-println
-  "The square of 2 is: "
+println "The square of 2 is: "
 
 defn
-  square
-  [x]
-  *
-    x
-    x
+square
+[x]
+  * x x
 
 ; and function calls are
 println
   square
-    2
+  2
 
 
-.
+
+
+,
 And we can handle lists with:
-.
+,
 
 
-println
-  "\n# Lists"
+println "\n# Lists"
 
 
 println
   list
-    2
-    3
-    4
+  2
+  3
+  4
 
 
 
-.
+,
 and conditionals:
-.
+,
 
 ; lisp conditional
 ; (if (> x 0)
 ;     (print "Positive")
 ;     (print "Non-Positive"))
 
-println
-  "\n# Conditional"
+println "\n# Conditional"
 
 
 
 println
   if
-    >
-      2
-      0
-    "Positive"
-    "Non-Positive"
+    > 2 0
+  "Positive"
+  "Non-Positive"
 
 
 
-.
+
+,
 and multiline strings:
-.
+,
 
-println
-  "\n# String appending"
+println "\n# String appending"
 
 
 
 println
   str
-    "This is the first line.\n"
-    "And this is the second."
+  "This is the first line.\n"
+  "And this is the second."
 
 
-.
+,
 and a recursion example
-.
+,
 
 ; (defun (factorial n)
 ;   (if (= n 0)
 ;       1
 ;       (* n (factorial (- n 1)))))
 
-println 
-  "\n# Factorial"
+println  "\n# Factorial"
 
 
 
 defn
-  factorial
-  [n]
+factorial
+[n]
   if
-    =
-      n
-      0
-    1
-    *
-      n
-      factorial
-        -
-          n
-          1
+  (= n 0)
+  1
+  (* n (factorial (- n 1)))
 
-println
-  "Factorial of 4: "
+println "Factorial of 4: "
 
 println
   factorial
-    4
+  4
 
-.
+
+
+,
 =====================
 overriding the indent
 =====================
@@ -200,117 +181,47 @@ You can override the indent and make hindent
 think the indentation is somewhere other than where
 it would be by putting a dot character where you
 want the indent to behave
-.
+,
 
 
-println
-  "\n# Overriding the indent with `.`"
+println "\n# Overriding the indent with `.`"
 
 println
   +
-    .  3
-    . 4
-    .     5
-    .   5
-    .         6 
+  .  3
+  . 4
+  .     5
+  .   5
+  .         6 
 
-.
-A beautiful and powerful use case of that is to
-wrap a function in parenthesis.
-
-the following are all equivalent. Note
-the use of the dot in the last one.
-.
 
 println
-  "\n# More dot overriding"
-
-println
-  "some stuff"
-
-(println "some stuff")
-
-println "some stuff"
+  +
+    + 2 2
   .
-
-.
-and here is the most important application...
-when a function accepts no arguments. Without
-the ability to use the dot notation, we would have
-no option but to fall back to the the lisp
-syntax of wrapping the function in parenthesis
-.
-
-println "\n# Even more dot overriding"
-  .
-
-; here is an example of a function with no arguments
-def
-  hello
-  fn
-    []
-    "hello world"
-
-; without the dot, we would have no option but
-; to wrap the function in parenthesis
-println
-  (hello)
-
-; but with the dot, we can write it like this
-println
-  hello
-    .
+    + 2 3
 
 
-.
-================
-Interesting Note
-================
-
-Because Hindent simply adds parenthesis and does
-nothing else, you can actually write lisp code
-in Hindent and it will work just fine. The one caveat
-is that you can't use any newlines or indentation
-in your lisp code, because hindent will think it is meaningful.
-
-For example
-.
-
-println "\n# Lisp code in Hindent"
-  .
-
-println (+ 2 2)
-  .
-
-(println "look ma, no hands!")
-
-
-
-.
+,
 The only data structure remaining is the
 hash table.  As you can see, the indent
 override is helpful here
-.
+,
 
 println "\n# Hash Tables"
-  .
 
-def
-  my-map {:a 1, :b 2, :c 3}
+def my-map {:a 1, :b 2, :c 3}
 
 ; Using the map as a function
 println (my-map :a)  ; => 1
 
-
 def
-  my-map-g
-  {
-  . :a 1,
-  . :b 2,
-  . :c 3
-  }
+my-map-g
+{
+. :a 1,
+. :b 2,
+. :c 3
+}
 
 ; Using the map as a function
-println
-  (my-map :b)  ; => 1
-
+println (my-map :b)  ; => 1

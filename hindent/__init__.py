@@ -40,7 +40,7 @@ that takes a filename as input, executes the Lisp code in the file, and returns 
 output and error of the execution as a tuple.
 """
 
-__version__ = "3.0.1"
+__version__ = "4.0.0"
 
 from pathlib import Path
 import os
@@ -287,7 +287,7 @@ def translate_string(hindent_code: str) -> str:
 
         # We want to remove the comments, so we don't want to add them to the
         # list of valid lines, so we simply skip them with a continue statement/guard clause
-        if line.strip()[0] == ";":
+        if line.strip().find(";") == 0:
             continue
 
         validlines.append(line)
@@ -319,19 +319,31 @@ def translate_string(hindent_code: str) -> str:
         # use the period to modify the indentation level of a line.
         # an example is given in `examples/example.hin`.  This is also
         # used to evaluate functions that have no arguments.
-        if line.lstrip()[:2] == ". " or line.lstrip() == ".":
+        if line.strip() == "." or line.lstrip().find(". ") == 0:
             line = line.lstrip()[1:]
 
         # Determine the required parentheses
-        if next_indent == 0 and current_indent == 0:
-            if line.strip() == "" and next_line.strip() != "":
-                line = "("
-            elif line.strip() != "" and next_line.strip() == "":
-                line = line + ")"
-        elif next_indent > current_indent:
-            line = line + ("("  * (next_indent - current_indent)) 
+        if (
+            # current line is totally blank with no indentation
+            # or period
+            (current_indent == 0 and line.strip() == "") and
+            # the next line is anything but blank
+            not (next_indent == 0 and next_line.strip() == "")
+        ):
+            line = " ( "
+        if (
+            # current line is anything but blank
+            not (current_indent == 0 and line.strip() == "") and
+            # next line is blank
+            (next_indent == 0 and next_line.strip() == "")
+        ):
+            line = line + " ) "
+
+        if next_indent > current_indent:
+            line = line + (" ( "  * (next_indent - current_indent)) 
         elif next_indent < current_indent:
-            line = line + (")" * (current_indent - next_indent))
+            line = line + (" ) " * (current_indent - next_indent))
+
 
         processed_lines.append(line)
 

@@ -1,21 +1,21 @@
-.
+,
 These examples are from clojure's website: https://clojure.org/guides/learn/functions
-.
+,
 
-;;    name   params         body
-;;    -----  ------  -------------------
-(defn greet  [name]  (str "Hello, " name) )
+;;      name   params         body
+;;      -----  ------  -------------------
+; (defn greet  [name]  (str "Hello, " name) )
 
 defn
-  greet-hin
-  [name]
+greet-hin
+[name]
   str
-    "Hello, "
-    name
+  "Hello, "
+  name
 
-(greet "clojure")
+; (greet "clojure")
 
-greet
-  "hin"
+println
+  greet-hin "hin"
 
 
