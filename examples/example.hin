@@ -2,19 +2,12 @@
 Here are some examples of Hindent code
 ,
 
-println
-"# Basic Math"
-
-
+println "# Basic Math"
 
 println "2 + 2 = "
 
-
 println
-  +
-  2
-  2
-
+  + 2 2
 
 ,
 And some other examples would be:
@@ -22,27 +15,12 @@ And some other examples would be:
 
 println "(2 + 2) + 2 = "
 
-
 println
   +
-    +
-    2
-    2
+    + 2 2
   2
 
-
-
-println
-"(2 ^ (2 + 2)) + 2 = "
-
-
-println
-  +
-    Math/pow 2
-      + 2 2
-  2
-
-
+println "(2 ^ (2 + 2)) + 2 = "
 
 ,
 Because Hindent simply adds parenthesis and does
@@ -57,6 +35,14 @@ For example
 println "\n# Lisp code in Hindent"
 
 println (+ 2 2)
+
+println
+  +
+    Math/pow
+    2
+    (+ 2 2)
+  2
+
 
 ,
 And we can define variables with:
@@ -89,8 +75,6 @@ println
   2
 
 
-
-
 ,
 And we can handle lists with:
 ,
@@ -118,16 +102,11 @@ and conditionals:
 
 println "\n# Conditional"
 
-
-
 println
   if
     > 2 0
   "Positive"
   "Non-Positive"
-
-
-
 
 ,
 and multiline strings:
@@ -135,13 +114,10 @@ and multiline strings:
 
 println "\n# String appending"
 
-
-
 println
   str
   "This is the first line.\n"
   "And this is the second."
-
 
 ,
 and a recursion example
@@ -154,23 +130,20 @@ and a recursion example
 
 println  "\n# Factorial"
 
-
-
 defn
 factorial
 [n]
   if
   (= n 0)
   1
-  (* n (factorial (- n 1)))
+    *
+    n
+      factorial (- n 1)
 
 println "Factorial of 4: "
 
 println
-  factorial
-  4
-
-
+  factorial 4
 
 ,
 =====================
