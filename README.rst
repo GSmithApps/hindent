@@ -7,38 +7,47 @@ be surprised at the difference it makes.
 For example, here
 is some Hindent code... it's nice and pretty.
 
-```
-println "Hey folks!"
+.. code-block:: lisp
 
-+ 2 2
-```
+
+   println "Hey folks!"
+   
+   + 2 2
+
 
 There are more examples in 
-[`/examples/example.hin`](https://github.com/GSmithApps/hindent/blob/main/examples/example.hin).
+[``/examples/example.hin``](https://github.com/GSmithApps/hindent/blob/main/examples/example.hin).
 
 There are more details in the Explanation section below.
 
-# Installation
+============
+Installation
+============
 
-1. `pip install hindent`
+1. ``pip install hindent``
 2. [Install clojure](https://clojure.org/guides/install_clojure#java)
-   (and Java) and make sure clojure is on your path by running `clojure -Sdescribe`.
+   (and Java) and make sure clojure is on your path by running ``clojure -Sdescribe``.
+
    - This also works with lisps other than clojure. If
      you want to do that, the
      notes in the module dosctrings explain how to use a different lisp
+
 3. The syntax highlighter for vs code is
-   [`Hindent Lang`](https://marketplace.visualstudio.com/items?itemName=GrantSmith.hindent-lang).  You can find
+   [``Hindent Lang``](https://marketplace.visualstudio.com/items?itemName=GrantSmith.hindent-lang).  You can find
    it in the normal extensions menu / marketplace.
 
-# Usage
+=====
+Usage
+=====
 
 I think a nice way to interactively run programs is with jupyter.
 So, I recommend opening up a jupyter notebook. Then, simply start to
-import ``Hindent`` with `import hindent as h`, and the docstrings/code-hover
+import ``Hindent`` with ``import hindent as h``, and the docstrings/code-hover
 will guide you from there.
 
-
-# Explanation
+===========
+Explanation
+===========
 
 Hindent is really just string processor that
 inserts parenthesis based on indentation. 
@@ -58,53 +67,62 @@ most of the examples are lisp.
 
 Here is how it works
 
-## Pre-Parse
+Pre-Parse
+---------
 
 - the translater supports literate programming. It does so
   by putting block comments on equal footing with code. To
   toggle back and forth between code and block comment,
   put a lone comma on a line.
+
   - For reasons of textmate grammars and syntax highlighting,
     we had to make the file start as code, rather than starting
     as block comment. We would have preferred it the other way,
     but we think it's okay.  We're thankful for how awesome vs
     code and textmate are.
+
 - the parser/translater will put a new line after the source code
   to ensure the final dedent is correct
-- lines that start with `;` are comments and will be ignored
+- lines that start with ``;`` are comments and will be ignored
 
 
-## Main Parsing
+Main Parsing
+------------
 
 - calculate the number of spaces each line starts with.
 - Then divide by 2 to determine the indentation level
 - then, for each line find the difference in indentation level
   between that line and the following line
+
   - if the indentation level goes up, then after the current line, add opening parenthesis
     according to the number of indents.
   - if the indentation level goes down, then after
     the current line, add closing parenthesis
     according to the number of dedents.
   - if the indentation level remains the same, do nothing
+  
 - The notes in this bullet are
   best illustrated with examples.  There
-  are some good ones in `/examples/example.hin`.
+  are some good ones in ``/examples/example.hin``.
   Anyway, here is an attempt at an explanation:
   to allow the user to pick an indentation level
   other than what the textual code would otherwise look like,
-  the user can lead a line with `. `.  This forces
-  Hindent to treat the line's indentation where the `.` is
+  the user can lead a line with ``. ``.  This forces
+  Hindent to treat the line's indentation where the ``.`` is
   rather than where the rest of the code (or lack thereof) is.
-  Again, please see the examples in `/examples/example.hin`.
+  Again, please see the examples in ``/examples/example.hin``.
 
-## Execution
+Execution
+---------
 
 The Hindent interpreter executes
 Hindent code by translating
 it to lisp then executing it using
 existing lisp interpreters/compilers.
 
-# Miscellaneous Thoughts
+======================
+Miscellaneous Thoughts
+======================
 
 This framework works for any language.  We just mostly
 discuss lisps because it has the biggest impact and is
@@ -120,13 +138,15 @@ languages is probably harder than translating into whitespace-insensitive
 languages.  But translating *from* whitespace-sensitive languages
 (like Hindent) is totally okay.
 
-# ToDo
+====
+ToDo
+====
 
 - [ ] figure out how to process whitespace and
       empty lines in the new setup
       - [ ] rewrite all the example code.
 - [ ] redo the example code for map
-- [ ] change the verbage from `translate` to something else. I can't think
+- [ ] change the verbage from ``translate`` to something else. I can't think
       of what. It's hard to say. really all it does is remove comments and whitespace
       then add parenthesis.
 - [ ] maybe get it out of running as a subprocess so
@@ -135,25 +155,33 @@ languages.  But translating *from* whitespace-sensitive languages
   - [ ] convert readme to rst (change in pyproject.toml as well)
 - [ ] push to conda (in addition to pypi)
 
-# Caveat
+======
+Caveat
+======
 
 You can't write regular lisp code on indent 0
 or at the beginning of a code block.
 it will wrap in parenthesis
 
-# unsolved
+========
+unsolved
+========
 
 I'm not sure if this syntax retains lisp's
 homoiconicity. That's something to think more about
 
-# clojure replacements
+====================
+clojure replacements
+====================
 
 - list for lists
 - vector for vectors
 - hash-map for maps
 - set or hash-set for sets
 
-# Notes For Grant
+===============
+Notes For Grant
+===============
 
-- `flit build --format wheel`
-- `twine upload dist/*`
+- ``flit build --format wheel``
+- ``twine upload dist/*``
