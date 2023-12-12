@@ -8,15 +8,15 @@ For example, here
 is some Hindent code... it's nice and pretty.
 
 ```
+println "Hey folks!"
+
 + 2 2
 ```
 
-You'll probably think this example looks a little
-lisp-ish. And that's right -- this example is definitely
-lisp-ish.  There are more examples in 
+There are more examples in 
 [`/examples/example.hin`](https://github.com/GSmithApps/hindent/blob/main/examples/example.hin).
 
-There are more details in the paring section below.
+There are more details in the Explanation section below.
 
 # Installation
 
@@ -38,20 +38,23 @@ import ``Hindent`` with `import hindent as h`, and the docstrings/code-hover
 will guide you from there.
 
 
-# Parsing Spec
+# Explanation
 
-Hindent is really just a syntax wrapper.
-It simply allows you to use indents as
-a way to nest parenthesis. 
+Hindent is really just string processor that
+inserts parenthesis based on indentation. 
 
-It is extra handy with lisps because
-they use a lot of parenthesis. So that's why
+And just
+for convenience, we also put in a way to execute code.
+That code execution part might feel like a core
+part of Hindent, but it isn't. The real important parts
+are the syntax and how Hindent reads it to insert
+parenthesis.
+
+This method for implying parenthesis with whitespace
+happens to be extra handy with lisps because
+they use a lot of parenthesis, and no commas to
+separate things (just spaces). So that's why
 most of the examples are lisp.
-
-The Hindent interpreter executes
-Hindent code by translating
-it to lisp then executing it using
-existing lisp interpreters/compilers.
 
 Here is how it works
 
@@ -93,6 +96,13 @@ Here is how it works
   Hindent to treat the line's indentation where the `.` is
   rather than where the rest of the code (or lack thereof) is.
   Again, please see the examples in `/examples/example.hin`.
+
+## Execution
+
+The Hindent interpreter executes
+Hindent code by translating
+it to lisp then executing it using
+existing lisp interpreters/compilers.
 
 # Miscellaneous Thoughts
 
