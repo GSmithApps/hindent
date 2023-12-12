@@ -1,8 +1,7 @@
 Hindent is a new programming language.
-It's purpose is to use
-whitespace and indentation to insert implied
-parenthesis, which means you don't have to write
-the parenthesis, which makes the code look cleaner.
+It's purpose is to make code more readable by
+using whitespace and indentation instead of
+nesting parenthesis.
 That might not sound like much, but you might
 be surprised at the difference it makes.
 
