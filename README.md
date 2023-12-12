@@ -4,28 +4,19 @@ using whitespace and indentation instead of
 nesting parenthesis.
 That might not sound like much, but you might
 be surprised at the difference it makes.
-
 For example, here
-is some Hindent code... it's nice and pretty
+is some Hindent code... it's nice and pretty.
 
 ```
 + 2 2
 ```
 
-And the corresponding lisp code is
+You'll probably think this example looks a little
+lisp-ish. And that's right -- this example is definitely
+lisp-ish.  There are more examples in 
+[`/examples/example.hin`](https://github.com/GSmithApps/hindent/blob/main/examples/example.hin).
 
-```
-(+ 2 2)
-```
-
-The Hindent interpreter executes
-Hindent code by translating
-it to lisp then executing it using
-existing lisp interpreters/compilers.
-
-More details are given in the
-parsing section below, and more examples
-are in `/examples/example.hin`.
+There are more details in the paring section below.
 
 # Installation
 
@@ -56,6 +47,11 @@ a way to nest parenthesis.
 It is extra handy with lisps because
 they use a lot of parenthesis. So that's why
 most of the examples are lisp.
+
+The Hindent interpreter executes
+Hindent code by translating
+it to lisp then executing it using
+existing lisp interpreters/compilers.
 
 Here is how it works
 
