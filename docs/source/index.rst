@@ -77,6 +77,7 @@ that can be easier to read.
    :maxdepth: 2
    :caption: Contents:
 
+   examples
    modules
 
 Indices and tables

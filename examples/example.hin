@@ -40,7 +40,7 @@ println
   +
     Math/pow
     2
-    (+ 2 2)
+      + 2 2
   2
 
 
@@ -79,17 +79,10 @@ println
 And we can handle lists with:
 ,
 
-
 println "\n# Lists"
 
-
 println
-  list
-  2
-  3
-  4
-
-
+  list 1 2 3 4
 
 ,
 and conditionals:
@@ -134,11 +127,11 @@ defn
 factorial
 [n]
   if
-  (= n 0)
+    = n 0
   1
-    *
-    n
-      factorial (- n 1)
+    * n
+      factorial
+        - n 1
 
 println "Factorial of 4: "
 
