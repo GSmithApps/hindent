@@ -1,7 +1,10 @@
 """
 Provides functions for executing Hindent (or other) code.
 
-Usually used to 
+The Hindent interpreter executes
+Hindent code by translating
+it to lisp then executing it using
+existing lisp interpreters/compilers.
 
 Provided functions
 ------------------

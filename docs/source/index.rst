@@ -77,9 +77,12 @@ that can be easier to read.
    :maxdepth: 1
    :caption: Contents:
 
+   installation-and-usage
+   explanation
    examples
    main
    execution
+   misc
 
 Indices and tables
 ==================
@@ -87,3 +90,4 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
