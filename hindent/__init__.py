@@ -2,7 +2,11 @@
 Provides functions to translate and/or execute Hindent code.
 
 >>> import hindent as h
->>> h.translate_file('./your-file.hin')
+>>> hindent_code = '''
+... println
+...   + 2 2
+... '''
+>>> h.translate_string(hindent_code)
 (
 println (
   + 2 2 ) )
@@ -10,11 +14,7 @@ println (
 or
 
 >>> import hindent as h
->>> hindent_code = '''
-... println
-...   + 2 2
-... '''
->>> h.translate_string(hindent_code)
+>>> h.translate_file('./your-file.hin')
 (
 println (
   + 2 2 ) )
