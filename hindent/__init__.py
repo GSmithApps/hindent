@@ -320,30 +320,29 @@ def translate_string(hindent_code: str) -> str:
         # an example is given in `examples/example.hin`.  This is also
         # used to evaluate functions that have no arguments.
         if line.strip() == "." or line.lstrip().find(". ") == 0:
-            line = line.lstrip()[1:]
+            line = " " + line.lstrip()[1:]
 
         # Determine the required parentheses
         if (
-            # current line is totally blank with no indentation
-            # or period
+            # current line is totally blank with no indentation or period
             (current_indent == 0 and line.strip() == "") and
             # the next line is anything but blank
             not (next_indent == 0 and next_line.strip() == "")
         ):
-            line = " ( "
+            line = "("
+
         if (
             # current line is anything but blank
             not (current_indent == 0 and line.strip() == "") and
             # next line is blank
             (next_indent == 0 and next_line.strip() == "")
         ):
-            line = line + " ) "
+            line = line.rstrip() + " )"
 
         if next_indent > current_indent:
-            line = line + (" ( "  * (next_indent - current_indent)) 
+            line = line.rstrip() + " " + ("("  * (next_indent - current_indent)) 
         elif next_indent < current_indent:
-            line = line + (" ) " * (current_indent - next_indent))
-
+            line = line.rstrip() + " " + (")" * (current_indent - next_indent))
 
         processed_lines.append(line)
 
