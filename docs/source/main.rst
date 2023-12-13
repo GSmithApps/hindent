@@ -1,8 +1,5 @@
-hindent package
-===============
-
-Module contents
----------------
+Main
+----
 
 .. automodule:: hindent
    :members:

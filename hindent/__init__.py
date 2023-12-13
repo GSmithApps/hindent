@@ -1,5 +1,5 @@
 """
-Provides functions to translate and/or execute Hindent code.
+Provides functions to translate Hindent code.
 
 >>> import hindent as h
 >>> hindent_code = '''
@@ -18,25 +18,6 @@ or
 (
 println (
   + 2 2 ) )
-
-Provided functions
-------------------
-
-translate_file(file_path: Path)
-    Translates Hindent code from a specified file.
-
-translate_string(hindent_code: str)
-    Translates Hindent code by adding appropriate parentheses based on indentation.
-
-get_text_from_file_path(file_path: Path)
-    Reads text from a file specified by the given file path.
-
-Additional Modules
-------------------
-
-lisp_execution
-    Provides functions to execute Lisp code.
-
 """
 
 __version__ = "4.0.0"

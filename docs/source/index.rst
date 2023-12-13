@@ -74,11 +74,12 @@ In this way, we can write lisp programs
 that can be easier to read.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    examples
-   modules
+   main
+   execution
 
 Indices and tables
 ==================
