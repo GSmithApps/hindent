@@ -7,7 +7,7 @@ name = "hindent"  # Name of your Python module/package
 authors = [{name = "Grant Smith", email = "14.gsmith.14@gmail.com"}]
 requires-python = ">=3.6"
 dynamic = ["version", "description"]
-readme = "README.md"
+readme = "README.rst"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

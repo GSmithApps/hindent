@@ -8,8 +8,8 @@ or
 
 >>> import hindent as h
 >>> hindent_code = '''
-... display
-...   2
+... println
+...   + 2 2
 ... '''
 >>> h.run_string(hindent_code)
 
@@ -193,8 +193,8 @@ def run_string(hindent_code: str) -> tuple:
 
     >>> import hindent as h
     >>> hindent_code = '''
-    ... display
-    ...   2
+    ... println
+    ...   + 2 2
     ... '''
     >>> h.run_string(hindent_code)
     some output
@@ -259,8 +259,8 @@ def translate_string(hindent_code: str) -> str:
     Examples
     --------
     >>> hindent_code = (
-    ...     "display\\n"
-    ...     "  2\\n"
+    ...     "println\\n"
+    ...     "  + 2 2\\n"
     ...     ""
     ... )
     >>> lisp_code = h.translate_string(hindent_code)
@@ -429,10 +429,10 @@ def _remove_potential_end_of_line_comment(line: str) -> str:
 
     Examples
     --------
-    >>> line = "display 2 ; this is a comment"
+    >>> line = "println 2 ; this is a comment"
     >>> line_without_comment = h.remove_potential_end_of_line_comment(line)
     >>> print(line_without_comment)
-    display 2
+    println 2
     """
 
     in_string = False
