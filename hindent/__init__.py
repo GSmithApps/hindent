@@ -6,7 +6,7 @@ Provides functions to translate Hindent code.
 ... println
 ...   + 2 2
 ... '''
->>> h.translate_string(hindent_code)
+>>> h.translate(hindent_code)
 (
 println (
   + 2 2 ) )
@@ -48,12 +48,13 @@ def translate_file(file_path: Path) -> str:
     >>> lisp_code = h.translate_file('./examples/example.hin')
     >>> print(lisp_code)
     """
-    return translate_string(
-        get_text_from_file_path(file_path),
+
+    return translate(
+        Path(file_path).read_text(),
     )
 
 
-def translate_string(hindent_code: str) -> str:
+def translate(hindent_code: str) -> str:
     """
     Translates Hindent code to lisp code by adding appropriate parentheses based on indentation.
 
@@ -73,12 +74,11 @@ def translate_string(hindent_code: str) -> str:
 
     Examples
     --------
-    >>> hindent_code = (
-    ...     "println\\n"
-    ...     "  + 2 2\\n"
-    ...     ""
-    ... )
-    >>> lisp_code = h.translate_string(hindent_code)
+    >>> hindent_code = '''
+    ... println
+    ...   + 2 2
+    ... '''
+    >>> lisp_code = h.translate(hindent_code)
     >>> print(lisp_code)
     """
 
@@ -165,33 +165,6 @@ def translate_string(hindent_code: str) -> str:
 
     # Join the processed lines
     return "\n".join(processed_lines)
-
-
-def get_text_from_file_path(file_path: Path) -> str:
-    """
-    Reads text from a file specified by the given file path.
-
-    This utility method reads and returns the contents of the file at the specified path.
-
-    Parameters
-    ----------
-    file_path : Path
-        The path of the file to be read.
-
-    Returns
-    -------
-    str
-        The content of the file as a string.
-
-    Examples
-    --------
-    >>> content = h._get_text_from_file_path('./examples/example.hin')
-    >>> print(content)
-    """
-    file_path = Path(file_path)
-
-    input_code = file_path.read_text()
-    return input_code
 
 
 def _remove_potential_end_of_line_comment(line: str) -> str:

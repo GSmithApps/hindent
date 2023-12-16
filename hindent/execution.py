@@ -30,7 +30,7 @@ output and error of the execution as a tuple.
 import subprocess
 import os
 from pathlib import Path
-from hindent import translate_string, get_text_from_file_path
+from hindent import translate, get_text_from_file_path
 
 
 _SAVED_FILE_TXT = "SAVED_FILE.txt"
@@ -153,7 +153,7 @@ def run_file(file_path: Path) -> tuple:
     some output
     """
     return run_string(
-        get_text_from_file_path(file_path),
+        Path(file_path).read_text(),
     )
 
 
@@ -187,7 +187,7 @@ def run_string(hindent_code: str) -> tuple:
     """
 
     # Add parentheses with the fixed function and return the result
-    parenthesized_code_fixed = translate_string(hindent_code)
+    parenthesized_code_fixed = translate(hindent_code)
 
     # Example usage
     output, error = execute_lisp(parenthesized_code_fixed)

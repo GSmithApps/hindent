@@ -93,25 +93,6 @@ And we can handle lists with:
      list 1 2 3 4
 
 
-
-and conditionals:
-
-.. code-block::
-
-   ; lisp conditional
-   ; (if (> x 0)
-   ;     (print "Positive")
-   ;     (print "Non-Positive"))
-   
-   println "\n# Conditional"
-   
-   println
-     if
-       > 2 0
-     "Positive"
-     "Non-Positive"
-
-
 and multiline strings:
 
 .. code-block::
@@ -128,7 +109,7 @@ and a recursion example
 
 .. code-block::
 
-   ; (defun (factorial n)
+   ; (defn factorial [n]
    ;   (if (= n 0)
    ;       1
    ;       (* n (factorial (- n 1)))))
@@ -177,7 +158,19 @@ want the indent to behave
      .
        + 2 3
 
-
+   ; lisp conditional
+   ; (if (> x 0)
+   ;     (print "Positive")
+   ;     (print "Non-Positive"))
+   
+   println "\n# Conditional"
+   
+   if
+     > 2 0
+   .
+     println "Positive"
+   .
+     println "Non-Positive"
 
 The only data structure remaining is the
 hash table.  As you can see, the indent
