@@ -25,35 +25,6 @@ __version__ = "4.0.0"
 from pathlib import Path
 
 
-def translate_file(file_path: Path) -> str:
-    """
-    Translates Hindent code from a specified file.
-
-    This method reads the Hindent code from the given file, translates it
-    by adding parentheses based on indentation, and returns the translated
-    code.
-
-    Parameters
-    ----------
-    file_path : Path
-        The path to the file containing the Hindent code to be translated.
-
-    Returns
-    -------
-    str
-        The translated code.
-
-    Examples
-    --------
-    >>> lisp_code = h.translate_file('./examples/example.hin')
-    >>> print(lisp_code)
-    """
-
-    return translate(
-        Path(file_path).read_text(),
-    )
-
-
 def translate(hindent_code: str) -> str:
     """
     Translates Hindent code to lisp code by adding appropriate parentheses based on indentation.
@@ -85,43 +56,32 @@ def translate(hindent_code: str) -> str:
     # Split the code into lines
     lines = hindent_code.split("\n")
 
-    validlines = []
+    # add a newline to the beginning of the list to ensure the first line is processed correctly
+    lines.insert(0, "")
 
-    in_code_block = True
+    lines.append(
+        ""
+    )  # Add a newline to the end to ensure the final outdent is correct
+
+    non_comment_line_numbers = []
 
     # remove comment blocks and whole line comments.
     for i, line in enumerate(lines):
-        # Handle code/comment blocks
-        if line.rstrip() == ",":
-            in_code_block = not in_code_block
-            continue
-
-        if not in_code_block:
-            continue
 
         # We want to remove the comments, so we don't want to add them to the
         # list of valid lines, so we simply skip them with a continue statement/guard clause
         if line.strip().find(";") == 0:
             continue
 
-        validlines.append(line)
-
-    validlines.append(
-        "\n"
-    )  # Add a newline to the end to ensure the final outdent is correct
+        non_comment_line_numbers.append(i)
 
     # Function to calculate the indentation level of a line
     def indentation_level(line):
         return (len(line) - len(line.lstrip())) // 2
-
-    # Process each line
-    processed_lines = []
-
-    for i, line in enumerate(validlines[:-1]):
-        next_line = validlines[i + 1]
-
-        # Remove any end-of-line comments
-        line = _remove_potential_end_of_line_comment(line)
+    
+    for i in range(len(non_comment_line_numbers)-1):
+        line = lines[non_comment_line_numbers[i]]
+        next_line = lines[non_comment_line_numbers[i + 1]]
 
         # Calculate the current and next line's indentation levels
         current_indent = indentation_level(line)
@@ -134,13 +94,18 @@ def translate(hindent_code: str) -> str:
         # use the period to modify the indentation level of a line.
         # an example is given in `examples/example.hin`.  This is also
         # used to evaluate functions that have no arguments.
-        if line.strip() == "." or line.lstrip().find(". ") == 0:
+        hasdot = False
+        if line.strip() == ".":
+            line = ""
+            hasdot = True
+        elif line.lstrip().find(". ") == 0:
             line = " " + line.lstrip()[1:]
+            hasdot = True
 
         # Determine the required parentheses
         if (
             # current line is totally blank with no indentation or period
-            (current_indent == 0 and line.strip() == "")
+            (current_indent == 0 and line.strip() == "" and not hasdot)
             and
             # the next line is anything but blank
             not (next_indent == 0 and next_line.strip() == "")
@@ -152,55 +117,25 @@ def translate(hindent_code: str) -> str:
             not (current_indent == 0 and line.strip() == "")
             and
             # next line is blank
-            (next_indent == 0 and next_line.strip() == "")
+            (next_indent == 0 and next_line.strip() == "" and not hasdot)
         ):
             line = line.rstrip() + " )"
 
         if next_indent > current_indent:
-            line = line.rstrip() + " " + ("(" * (next_indent - current_indent))
+            line = line.rstrip() + ("" if line.strip() == "" else " ") + ("(" * (next_indent - current_indent))
         elif next_indent < current_indent:
             line = line.rstrip() + " " + (")" * (current_indent - next_indent))
 
-        processed_lines.append(line)
+        lines[non_comment_line_numbers[i]] = line
+
+    # remove the newline we added to the beginning of the list
+    # lines.pop(0)
+    # we can't do this because sometimes the user writes on
+    # the first line.
+
+    # remove the newline we added to the end of the list
+    lines.pop()
 
     # Join the processed lines
-    return "\n".join(processed_lines)
+    return "\n".join(lines)
 
-
-def _remove_potential_end_of_line_comment(line: str) -> str:
-    """
-    Removes any end-of-line comments from a line of code.
-
-    This method removes any end-of-line comments from a line of code, returning the
-    line without the comment.
-
-    We need to make sure that we don't remove comments from within strings.
-
-    Parameters
-    ----------
-    line : str
-        The line of code to be processed.
-
-    Returns
-    -------
-    str
-        The line of code without any end-of-line comments.
-
-    Examples
-    --------
-    >>> line = "println 2 ; this is a comment"
-    >>> line_without_comment = h.remove_potential_end_of_line_comment(line)
-    >>> print(line_without_comment)
-    println 2
-    """
-
-    in_string = False
-
-    for i, char in enumerate(line):
-        if char == '"':
-            in_string = not in_string
-
-        if char == ";" and not in_string:
-            return line[:i]
-
-    return line
