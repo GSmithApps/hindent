@@ -20,12 +20,10 @@ And some other examples would be:
 
    { println "(2 + 2) + 2 = "
    
-   { println
-     { +
-       { + 2 2
-       2
+   { println { +
+               { + 2 2
+               2
    
-   { println "(2 ^ (2 + 2)) + 2 = "
 
 
 Because Hindent simply adds parenthesis and does
@@ -40,12 +38,11 @@ For example
 
    { println "\n# Lisp code in Hindent"
    
-   { println { + 2 2
+   { println "(2 ^ (2 + 2)) + 2 = "
    
    { println
     { +
-      { Math/pow 2
-        { + 2 2
+      { Math/pow 2 { + 2 2
       2
 
 And we can define variables with:
@@ -139,10 +136,9 @@ want the indent to behave
      .   5
      .         6 
    
-   { println
-     { +
-       { + 2 2
-       { + 2 3
+   { println { +
+               { + 2 2
+               { + 2 3
 
    ; lisp conditional
    ; (if (> x 0)
