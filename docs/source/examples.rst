@@ -10,8 +10,7 @@ Here are some examples of Hindent code
    
    { println "2 + 2 = "
    
-   { println
-     { + 2 2
+   { println { + 2 2
 
 
 And some other examples would be:
@@ -105,10 +104,9 @@ and a recursion example
    { println "\n# Factorial"
    
    { defn factorial [n]
-     { if (= n 0) 1
-       { * n
-         { factorial
-           { - n 1
+     { if (= n 0)
+       1
+       { * n { factorial { - n 1
    
    { println "Factorial of 4: "
    
