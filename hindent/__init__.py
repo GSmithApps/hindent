@@ -77,7 +77,16 @@ def translate(hindent_code: str) -> str:
 
     # Function to calculate the indentation level of a line
     def indentation_level(line):
-        return (len(line) - len(line.lstrip())) // 2
+        """
+        The indentation should be the number of spaces at the beginning of the line
+        divided by two.
+        """
+
+        if line.strip() == "":
+            return 0
+        else:
+            return (len(line) - len(line.lstrip())) // 2
+        
     
     for i in range(len(non_comment_line_numbers)-1):
         line = lines[non_comment_line_numbers[i]]
@@ -97,34 +106,18 @@ def translate(hindent_code: str) -> str:
         hasdot = False
         if line.strip() == ".":
             line = ""
-            hasdot = True
         elif line.lstrip().find(". ") == 0:
             line = " " + line.lstrip()[1:]
-            hasdot = True
-
-        # Determine the required parentheses
-        if (
-            # current line is totally blank with no indentation or period
-            (current_indent == 0 and line.strip() == "" and not hasdot)
-            and
-            # the next line is anything but blank
-            not (next_indent == 0 and next_line.strip() == "")
-        ):
-            line = "("
-
-        if (
-            # current line is anything but blank
-            not (current_indent == 0 and line.strip() == "")
-            and
-            # next line is blank
-            (next_indent == 0 and next_line.strip() == "" and not hasdot)
-        ):
-            line = line.rstrip() + " )"
 
         if next_indent > current_indent:
-            line = line.rstrip() + ("" if line.strip() == "" else " ") + ("(" * (next_indent - current_indent))
+
+            # add an opening parenthesis at the location at with the current
+            # indent starts
+
+            line = line[: current_indent * 2] + ("(" * (next_indent - current_indent)) + line[current_indent * 2 :]
+
         elif next_indent < current_indent:
-            line = line.rstrip() + " " + (")" * (current_indent - next_indent))
+            line = line.rstrip() + (")" * (current_indent - next_indent))
 
         lines[non_comment_line_numbers[i]] = line
 

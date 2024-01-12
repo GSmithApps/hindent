@@ -6,26 +6,26 @@ Here are some examples of Hindent code
 
 .. code-block::
 
-   println "# Basic Math"
+   { println "# Basic Math"
    
-   println "2 + 2 = "
+   { println "2 + 2 = "
    
-   println
-     + 2 2
+   { println
+     { + 2 2
 
 
 And some other examples would be:
 
 .. code-block::
 
-   println "(2 + 2) + 2 = "
+   { println "(2 + 2) + 2 = "
    
-   println
-     +
-       + 2 2
-     2
+   { println
+     { +
+       { + 2 2
+       2
    
-   println "(2 ^ (2 + 2)) + 2 = "
+   { println "(2 ^ (2 + 2)) + 2 = "
 
 
 Because Hindent simply adds parenthesis and does
@@ -38,44 +38,38 @@ For example
 
 .. code-block::
 
-   println "\n# Lisp code in Hindent"
+   { println "\n# Lisp code in Hindent"
    
-   println (+ 2 2)
+   { println { + 2 2
    
-   println
-     +
-       Math/pow
-       2
-         + 2 2
-     2
-
-
+   { println
+    { +
+      { Math/pow 2
+        { + 2 2
+      2
 
 And we can define variables with:
 
 
 .. code-block::
 
-   println "\n# Variables"
+   { println "\n# Variables"
    
-   def x 4
+   { def x 4
    
-   println
-     + 2 x
+   { println
+     { + 2 x
 
 
 And Functions with:
 
 .. code-block::
 
-   println "\n# Functions"
+   { println "\n# Functions"
    
-   println "The square of 2 is: "
+   { println "The square of 2 is: "
    
-   defn
-   square
-   [x]
-     * x x
+   { defn square [x] { * x x
    
    ; and function calls are
    println
@@ -87,10 +81,9 @@ And we can handle lists with:
 
 .. code-block::
 
-   println "\n# Lists"
+   { println "\n# Lists"
    
-   println
-     list 1 2 3 4
+   { println { list 1 2 3 4
 
 
 and multiline strings:
@@ -132,6 +125,26 @@ and a recursion example
      factorial 4
 
 
+.. code-block::
+
+   ; (defn factorial [n]
+   ;   (if (= n 0)
+   ;       1
+   ;       (* n (factorial (- n 1)))))
+   
+   { println "\n# Factorial"
+   
+   { defn factorial [n]
+     { if (= n 0) 1
+       { * n
+         { factorial
+           { - n 1
+   
+   { println "Factorial of 4: "
+   
+   { println { factorial 4
+
+
 overriding the indent
 
 You can override the indent and make hindent
@@ -152,11 +165,10 @@ want the indent to behave
      .   5
      .         6 
    
-   println
-     +
-       + 2 2
-     .
-       + 2 3
+   { println
+     { +
+       { + 2 2
+       { + 2 3
 
    ; lisp conditional
    ; (if (> x 0)
@@ -165,12 +177,10 @@ want the indent to behave
    
    println "\n# Conditional"
    
-   if
-     > 2 0
-   .
-     println "Positive"
-   .
-     println "Non-Positive"
+   { if
+     { > 2 0
+     { println "Positive"
+     { println "Non-Positive"
 
 The only data structure remaining is the
 hash table.  As you can see, the indent
