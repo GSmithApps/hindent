@@ -72,8 +72,7 @@ And Functions with:
    { defn square [x] { * x x
    
    ; and function calls are
-   println
-     square 2
+   { println { square 2
 
 
 
@@ -90,40 +89,15 @@ and multiline strings:
 
 .. code-block::
 
-   println "\n# String appending"
+   { println "\n# String appending"
    
-   println
-     str
-     "This is the first line.\n"
-     "And this is the second."
+   { println
+     { str
+       "This is the first line.\n"
+       "And this is the second."
 
 
 and a recursion example
-
-.. code-block::
-
-   ; (defn factorial [n]
-   ;   (if (= n 0)
-   ;       1
-   ;       (* n (factorial (- n 1)))))
-   
-   println  "\n# Factorial"
-   
-   defn
-   factorial
-   [n]
-     if
-       = n 0
-     1
-       * n
-         factorial
-           - n 1
-   
-   println "Factorial of 4: "
-   
-   println
-     factorial 4
-
 
 .. code-block::
 
