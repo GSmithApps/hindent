@@ -41,9 +41,9 @@ For example
    { println "(2 ^ (2 + 2)) + 2 = "
    
    { println
-    { +
-      { Math/pow 2 { + 2 2
-      2
+     { +
+       { Math/pow 2 { + 2 2
+       2
 
 And we can define variables with:
 
@@ -54,8 +54,7 @@ And we can define variables with:
    
    { def x 4
    
-   { println
-     { + 2 x
+   { println { + 2 x
 
 
 And Functions with:
@@ -116,26 +115,9 @@ and a recursion example
    { println { factorial 4
 
 
-overriding the indent
-
-You can override the indent and make hindent
-think the indentation is somewhere other than where
-it would be by putting a dot character where you
-want the indent to behave
-
-
 .. code-block::
 
-   println "\n# Overriding the indent with `.`"
-   
-   println
-     +
-     .  3
-     . 4
-     .     5
-     .   5
-     .         6 
-   
+
    { println { +
                { + 2 2
                { + 2 3
