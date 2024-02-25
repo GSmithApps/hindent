@@ -6,22 +6,24 @@ Here are some examples of Hindent code
 
 .. code-block::
 
-   { println "# Basic Math"
+   } println "# Basic Math"
    
-   { println "2 + 2 = "
+   } println "2 + 2 = "
    
-   { println { + 2 2
+   } println
+     } + 2 2
 
 
 And some other examples would be:
 
 .. code-block::
 
-   { println "(2 + 2) + 2 = "
+   } println "(2 + 2) + 2 = "
    
-   { println { +
-               { + 2 2
-               2
+   } println 
+     } +
+       } + 2 2
+       2
    
 
 
@@ -35,13 +37,15 @@ For example
 
 .. code-block::
 
-   { println "\n# Lisp code in Hindent"
+   } println "\n# Lisp code in Hindent"
    
-   { println "(2 ^ (2 + 2)) + 2 = "
+   } println "(2 ^ (2 + 2)) + 2 = "
    
-   { println
-     { +
-       { Math/pow 2 { + 2 2
+   } println
+     } +
+       } Math/pow
+         2 
+         } + 2 2
        2
 
 And we can define variables with:
@@ -49,35 +53,60 @@ And we can define variables with:
 
 .. code-block::
 
-   { println "\n# Variables"
+   } println "\n# Variables"
    
-   { def x 4
+   } def x 4
    
-   { println { + 2 x
+   } println
+     } + 2 x
 
 
 And Functions with:
 
 .. code-block::
 
-   { println "\n# Functions"
+   } println "\n# Functions"
    
-   { println "The square of 2 is: "
+   } println "The square of 2 is: "
    
-   { defn square [x] { * x x
+   } def
+     square
+     } \ x
+       } * x x
    
    ; and function calls are
-   { println { square 2
+   } println
+     } square 2
 
+and a function of two arguments:
 
+.. code-block:: 
+
+   } println "\n# Functions with multiple arguments"
+   
+   } def
+     add
+     } \ x
+       } \ y
+         } + x y
+   
+   } println
+     } add 2 3
 
 And we can handle lists with:
 
 .. code-block::
 
-   { println "\n# Lists"
+   } println "\n# Lists"
    
-   { println { list 1 2 3 4
+   } println
+     } ::
+       } ::
+         } ::
+           1
+           2
+         3
+       4
 
 
 and multiline strings:
@@ -86,8 +115,8 @@ and multiline strings:
 
    { println "\n# String appending"
    
-   { println
-     { str
+   } println
+     } concat
        "This is the first line.\n"
        "And this is the second."
 
@@ -101,24 +130,32 @@ and a recursion example
    ;       1
    ;       (* n (factorial (- n 1)))))
    
-   { println "\n# Factorial"
+   } println "\n# Factorial"
    
-   { defn factorial [n]
-     { if (= n 0)
-       1
-       { * n { factorial { - n 1
+   } def
+     factorial
+     } \ n
+       } if
+         } = n 0
+         1
+         } *
+           n 
+           } factorial
+             } - n 1
    
-   { println "Factorial of 4: "
+   } println "Factorial of 4: "
    
-   { println { factorial 4
+   } println
+     } factorial 4
 
 
 .. code-block::
 
 
-   { println { +
-               { + 2 2
-               { + 2 3
+   } println 
+     } +
+       } + 2 2
+       } + 2 3
 
    ; lisp conditional
    ; (if (> x 0)
@@ -127,10 +164,10 @@ and a recursion example
    
    println "\n# Conditional"
    
-   { if
-     { > 2 0
-     { println "Positive"
-     { println "Non-Positive"
+   } if
+     } > 2 0
+     } println "Positive"
+     } println "Non-Positive"
 
 The only data structure remaining is the
 hash table.  As you can see, the indent
@@ -138,7 +175,7 @@ override is helpful here
 
 .. code-block::
 
-   println "\n# Hash Tables"
+   { println "\n# Hash Tables"
    
    def my-map {:a 1, :b 2, :c 3}
    
