@@ -22,14 +22,15 @@ z = co(
 
 
 
-co(co(co(pri,
-         co(concat,
-            hey,
-            there)),
-      co(pri,
-         co(concat,
-            hey,
-            there)),),
+co(
+   co(pri,
+      co(concat,
+         hey,
+         there)),
+   co(pri,
+      co(concat,
+         hey,
+         there)),
    co(pri,
       co(p,
          co(p,

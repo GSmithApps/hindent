@@ -30,16 +30,13 @@ def co(*fs):
     if len(fs) == 1:
         return fs[0]
     
-    assert remaining_args(fs[0]) >= len(fs) - 1
-
     for i, f in enumerate(fs):
 
         if i == 0:
             current = f
 
         if remaining_args(current) == 1:
-            # because of our assertion above, we know that
-            # this can only happen on the last iteration
+
             return current(fs[i+1])
         else:
             current = partial(current, fs[i+1])
