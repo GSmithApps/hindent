@@ -1,0 +1,2 @@
+- ``print -> lambda x : print(x)``
+- ``+ -> x = lambda y : lambda z : y + z``

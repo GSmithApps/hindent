@@ -103,17 +103,19 @@ And we can handle lists with:
      } ::
        } ::
          } ::
-           1
-           2
-         3
-       4
+           } ::
+             1
+             2
+           3
+         4
+       []
 
 
 and multiline strings:
 
 .. code-block::
 
-   { println "\n# String appending"
+   } println "\n# String appending"
    
    } println
      } concat
