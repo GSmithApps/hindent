@@ -22,8 +22,7 @@ z = co(
 
 
 
-co(
-   co(pri,
+co(co(pri,
       co(concat,
          hey,
          there)),
