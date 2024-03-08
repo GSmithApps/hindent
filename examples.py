@@ -34,6 +34,11 @@ from composing import co
 from library import wrap_in_unit_function, pri, p, our_id, concat
 from new_parser import parse_newlang_to_python
 
+x = wrap_in_unit_function(1)
+y = wrap_in_unit_function(2)
+hey = wrap_in_unit_function("hey ")
+there = wrap_in_unit_function("there")
+
 newlang_code = """
 
 } pri
@@ -44,12 +49,6 @@ newlang_code = """
       y
 
 """
-
-
-x = wrap_in_unit_function(1)
-y = wrap_in_unit_function(2)
-hey = wrap_in_unit_function("hey ")
-there = wrap_in_unit_function("there")
 
 eval(parse_newlang_to_python(newlang_code))
 
@@ -74,23 +73,4 @@ newlang_code_2 = """
 
 """
 
-print(parse_newlang_to_python(newlang_code_2))
-
-# eval(parse_newlang_to_python(newlang_code_2))
-
-# co(co(pri,
-#       co(concat,
-#          hey,
-#          there)),
-#    co(pri,
-#       co(concat,
-#          hey,
-#          there)),
-#    co(pri,
-#       co(p,
-#          co(p,
-#             x,
-#             y),
-#          co(p,
-#             x,
-#             y))))
+eval(parse_newlang_to_python(newlang_code_2))

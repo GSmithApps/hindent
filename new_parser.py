@@ -1,49 +1,27 @@
 def parse_newlang_to_python(input_code: str) -> str:
     lines = input_code.strip().split('\n')
-    python_code = []
-    stack = []  # Stack to keep track of (indentation level, 'co(' or ', co(')
+    output_lines = []
 
-    for line in lines:
-        if not line.strip():  # Skip empty lines
-            continue
-        indent = len(line) - len(line.lstrip())
-        # Determine the current line's content without leading spaces
-        content = line.lstrip()
+    for i, line in enumerate(lines):
+        # Count the number of leading spaces (our indentation is two spaces per level)
+        indent = len(line) - len(line.lstrip(' '))
+        num_indents = indent // 2
 
-        # Handle function calls (lines starting with '}')
-        if content.startswith('}'):
-            func_name = content[1:].strip()
-            while stack and indent <= stack[-1][0]:
-                stack.pop()
-                python_code.append(')')
-            prefix = '' if not stack else ', '
-            python_code.append(f"{prefix}co({func_name}")
-            stack.append((indent, 'co('))
+        # Replace '} ' with 'co( '
+        current_line = line.replace('} ', 'co(')
+
+        # Determine the number of indents in the next line to decide on closing parentheses
+        if i < len(lines) - 1:
+            next_line_indent = len(lines[i + 1]) - len(lines[i + 1].lstrip(' '))
+            next_num_indents = next_line_indent // 2
         else:
-            # It's an argument to a function
-            python_code.append(f", {content}")
+            # If this is the last line, ensure we close all open parentheses
+            next_num_indents = 0
 
-    # Close any remaining open 'co' calls
-    while stack:
-        stack.pop()
-        python_code.append(')')
+        # Calculate how many parentheses to close based on the indent difference
+        closing_parens = ')' * (num_indents - next_num_indents)
+        # Append the modified line with closing parentheses and a comma if not the last line
+        output_lines.append(current_line + closing_parens + (',' if i < len(lines) - 1 else ''))
 
-    return ''.join(python_code)
+    return '\n'.join(output_lines)
 
-# # Example usage
-# input_code1 = """
-# } my_func
-#   2
-#   2
-# """
-
-# input_code2 = """
-# } newfunc
-#   2
-#   } otherfunc
-#     3
-#     4
-# """
-
-# print(parse_newlang_to_python(input_code1))
-# print(parse_newlang_to_python(input_code2))
