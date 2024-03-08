@@ -31,13 +31,14 @@ compose(newfunc, 2, compose(otherfunc, 3, 4,),)
 """
 
 from composing import co
-from library import wrap_in_unit_function, pri, p, our_id, concat
+from library import wrap_in_unit_function, pri, p, our_id, concat, t
 from new_parser import parse_newlang_to_python
 
 x = wrap_in_unit_function(1)
 y = wrap_in_unit_function(2)
 hey = wrap_in_unit_function("hey ")
-there = wrap_in_unit_function("there")
+there = wrap_in_unit_function("there ")
+fam = wrap_in_unit_function("fam")
 
 newlang_code = """
 
@@ -61,9 +62,11 @@ newlang_code_2 = """
   } pri
     } concat
       hey
-      there
+      } concat
+        there
+        fam
   } pri
-    } p
+    } t
       } p
         x
         y

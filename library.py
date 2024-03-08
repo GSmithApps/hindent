@@ -32,6 +32,13 @@ def p(f1_num: Callable[[None], Numeric],f2_num: Callable[[None], Numeric]) -> Ca
 
     return wrap_in_unit_function(f1_num(None) + f2_num(None))
 
+def t(f1_num: Callable[[None], Numeric],f2_num: Callable[[None], Numeric]) -> Callable[[None], Numeric]:
+    """
+    Plus on the level of functions
+    """
+
+    return wrap_in_unit_function(f1_num(None) * f2_num(None))
+
 
 def pri(f: Callable[[None], Any]) -> Callable[[Callable[[Any],None]], Callable[[Any],None]]:
     """
