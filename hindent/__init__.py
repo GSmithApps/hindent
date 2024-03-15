@@ -1,5 +1,84 @@
 from functools import partial
 import inspect
+import re
+
+def replace_whole_word(text, word, replacement):
+    # Escape the word_or_symbol to ensure special characters are treated literally
+    pattern = r'\b' + re.escape(word) + r'\b'
+    # Replace the word_or_symbol with the specified replacement
+    replaced_text = re.sub(pattern, replacement, text)
+    return replaced_text
+
+from typing import Any, Callable, Union
+
+
+def wrap_in_unit_function(x) -> Callable[[None], Any]:
+    """
+    Raise a value to be a function
+    """
+
+    def returnfunc(y):
+        if y is None:
+            return x
+        else:
+            raise NotImplementedError("This function's domain is None")
+
+    return returnfunc
+
+
+def our_id(f: Callable[[Any], None]) -> Callable[[Any], None]:
+    """
+    The identity function.
+
+    This works on functions or on values.
+    - If it's given a function, it returns the function.
+    - If it's given a value, it returns that value.
+    """
+
+    return f
+
+
+Numeric = Union[int, float, complex]
+
+
+def p(
+    f1_num: Callable[[None], Numeric], f2_num: Callable[[None], Numeric]
+) -> Callable[[None], Numeric]:
+    """
+    Plus on the level of functions
+    """
+
+    return wrap_in_unit_function(f1_num(None) + f2_num(None))
+
+
+def t(
+    f1_num: Callable[[None], Numeric], f2_num: Callable[[None], Numeric]
+) -> Callable[[None], Numeric]:
+    """
+    Plus on the level of functions
+    """
+
+    return wrap_in_unit_function(f1_num(None) * f2_num(None))
+
+
+def pri(
+    f: Callable[[None], Any]
+) -> Callable[[Callable[[Any], None]], Callable[[Any], None]]:
+    """
+    print on the level of functions
+    """
+    print(f(None))
+    return our_id
+
+
+def concat(
+    f1_string: Callable[[None], str], f2_string: Callable[[None], str]
+) -> Callable[[None], str]:
+    """
+    Concatenation on the level of functions
+    """
+
+    return wrap_in_unit_function(f1_string(None) + f2_string(None))
 
 
 # Function to calculate remaining arguments, now handles both partials and regular functions
@@ -48,6 +127,11 @@ def co(*fs):
 
 
 def translate_hindent(input_code: str) -> str:
+
+    input_code = replace_whole_word(input_code, "print", "pri")
+    input_code = input_code.replace('+', 'p')
+    input_code = input_code.replace("*", "t")
+
     lines = input_code.strip().split("\n")
     output_lines = []
 
@@ -75,3 +159,6 @@ def translate_hindent(input_code: str) -> str:
         )
 
     return "\n".join(output_lines)
+
+def run_hindent(input_code: str, locals) -> None:
+    exec(translate_hindent(input_code), globals(), locals)

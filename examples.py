@@ -1,5 +1,6 @@
 """
-This is a toy language interpreter/transpiler. want to translate into
+This is a toy language interpreter/transpiler. It translates
+the toy code into
 a snippet of specialized python code. The basic idea is to
 use indentation and curly braces `}` to denote nested parenthesis
 and a call to a `compose` function. For example, I want
@@ -33,10 +34,9 @@ compose(newfunc, 2, compose(otherfunc, 3, 4,),)
 ```
 """
 
-from hindent.composing import co
-from hindent.library import wrap_in_unit_function, pri, p, our_id, concat, t
-from hindent.hindent_parser import translate_hindent
-
+from hindent import co, translate_hindent, wrap_in_unit_function, pri, p, our_id, concat, t, run_hindent
+# from hindent.library import wrap_in_unit_function, pri, p, our_id, concat, t
+# from hindent.library import *
 
 
 x = wrap_in_unit_function(1)
@@ -45,40 +45,41 @@ hey = wrap_in_unit_function("hey ")
 there = wrap_in_unit_function("there ")
 fam = wrap_in_unit_function("fam")
 
+
 newlang_code = """
 
-} pri
-  } p
+} print
+  } +
     x
-    } p
+    } +
       x
       y
 
 """
 
-eval(translate_hindent(newlang_code))
+run_hindent(newlang_code, locals())
 
 newlang_code_2 = """
 
-} } pri
+} } print
     } concat
       hey
       there
-  } pri
+  } print
     } concat
       hey
       } concat
         there
         fam
-  } pri
-    } t
-      } p
+  } print
+    } *
+      } +
         x
         y
-      } p
+      } +
         x
         y
 
 """
 
-eval(translate_hindent(newlang_code_2))
+run_hindent(newlang_code_2, locals())
