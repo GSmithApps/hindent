@@ -1,134 +1,77 @@
-"""
-Provides functions to translate Hindent code.
-
->>> import hindent as h
->>> hindent_code = '''
-... println
-...   + 2 2
-... '''
->>> h.translate(hindent_code)
-(
-println (
-  + 2 2 ) )
-
-or
-
->>> import hindent as h
->>> h.translate_file('./your-file.hin')
-(
-println (
-  + 2 2 ) )
-"""
-
-__version__ = "4.0.0"
-
-from pathlib import Path
+from functools import partial
+import inspect
 
 
-def translate(hindent_code: str) -> str:
-    """
-    Translates Hindent code to lisp code by adding appropriate parentheses based on indentation.
+# Function to calculate remaining arguments, now handles both partials and regular functions
+def _remaining_args(func_or_partial):
+    # Check if the input is a partial object
+    if isinstance(func_or_partial, partial):
+        # If so, retrieve the original function and count the supplied arguments
+        original_func = func_or_partial.func
+        supplied_args_count = len(func_or_partial.args) + len(func_or_partial.keywords)
+    else:
+        # If it's not a partial, it's a regular function, so consider no arguments supplied
+        original_func = func_or_partial
+        supplied_args_count = 0
 
-    This method processes Hindent code, which uses indentation to denote structure,
-    and converts it to valid lisp code by adding parentheses according to the
-    indentation levels.
+    # Inspect the original function signature
+    sig = inspect.signature(original_func)
+    total_params = len(sig.parameters)
 
-    Parameters
-    ----------
-    code : str
-        The Hindent code to be translated.
+    # Calculate remaining arguments required
+    remaining = total_params - supplied_args_count
+    return remaining
 
-    Returns
-    -------
-    str
-        The translated lisp code.
 
-    Examples
-    --------
-    >>> hindent_code = '''
-    ... println
-    ...   + 2 2
-    ... '''
-    >>> lisp_code = h.translate(hindent_code)
-    >>> print(lisp_code)
-    """
+def co(*fs):
 
-    # Split the code into lines
-    lines = hindent_code.split("\n")
+    if len(fs) == 0:
+        raise Exception("No functions to compose")
 
-    # add a newline to the beginning of the list to ensure the first line is processed correctly
-    lines.insert(0, "")
+    if len(fs) == 1:
+        return fs[0]
 
-    lines.append(
-        ""
-    )  # Add a newline to the end to ensure the final outdent is correct
+    for i, f in enumerate(fs):
 
-    non_comment_line_numbers = []
+        if i == 0:
+            current = f
 
-    # remove comment blocks and whole line comments.
-    for i, line in enumerate(lines):
+        if _remaining_args(current) == 1:
 
-        # We want to remove the comments, so we don't want to add them to the
-        # list of valid lines, so we simply skip them with a continue statement/guard clause
-        if line.strip().find(";") == 0:
-            continue
-
-        non_comment_line_numbers.append(i)
-
-    # Function to calculate the indentation level of a line
-    def indentation_level(line):
-        """
-        The indentation should be the number of spaces at the beginning of the line
-        divided by two.
-        """
-
-        if line.strip() == "":
-            return 0
+            return current(fs[i + 1])
         else:
-            return (len(line) - len(line.lstrip())) // 2
-        
-    
-    for i in range(len(non_comment_line_numbers)-1):
-        line = lines[non_comment_line_numbers[i]]
-        next_line = lines[non_comment_line_numbers[i + 1]]
+            current = partial(current, fs[i + 1])
 
-        # Calculate the current and next line's indentation levels
-        current_indent = indentation_level(line)
-        next_indent = indentation_level(next_line)
+    # this happens if the function accepts more arguments than
+    # the number of functions to compose
+    return current
 
-        # if a line starts with `. ` (or, in the case that a period is
-        # the only thing on the line... some examples of use cases are in
-        # the examples) then remove the period
-        # after the indentation is calculated. This lets the user
-        # use the period to modify the indentation level of a line.
-        # an example is given in `examples/example.hin`.  This is also
-        # used to evaluate functions that have no arguments.
-        hasdot = False
-        if line.strip() == ".":
-            line = ""
-        elif line.lstrip().find(". ") == 0:
-            line = " " + line.lstrip()[1:]
 
-        if next_indent > current_indent:
+def translate_hindent(input_code: str) -> str:
+    lines = input_code.strip().split("\n")
+    output_lines = []
 
-            # add an opening parenthesis at the location at with the current
-            # indent starts
+    for i, line in enumerate(lines):
+        # Count the number of leading spaces (our indentation is two spaces per level)
+        indent = len(line) - len(line.lstrip(" "))
+        num_indents = indent // 2
 
-            line = line[: current_indent * 2] + ("(" * (next_indent - current_indent)) + line[current_indent * 2 :]
+        # Replace '} ' with 'co( '
+        current_line = line.replace("} ", "co(")
 
-        elif next_indent < current_indent:
-            line = line.rstrip() + (")" * (current_indent - next_indent))
+        # Determine the number of indents in the next line to decide on closing parentheses
+        if i < len(lines) - 1:
+            next_line_indent = len(lines[i + 1]) - len(lines[i + 1].lstrip(" "))
+            next_num_indents = next_line_indent // 2
+        else:
+            # If this is the last line, ensure we close all open parentheses
+            next_num_indents = 0
 
-        lines[non_comment_line_numbers[i]] = line
+        # Calculate how many parentheses to close based on the indent difference
+        closing_parens = ")" * (num_indents - next_num_indents)
+        # Append the modified line with closing parentheses and a comma if not the last line
+        output_lines.append(
+            current_line + closing_parens + ("," if i < len(lines) - 1 else "")
+        )
 
-    # remove the newline we added to the beginning of the list
-    # lines.pop(0)
-    # we can't do this because sometimes the user writes on
-    # the first line.
-
-    # remove the newline we added to the end of the list
-    lines.pop()
-
-    # Join the processed lines
-    return "\n".join(lines)
-
+    return "\n".join(output_lines)

@@ -1,5 +1,8 @@
 """
-okay I'm making a toy language that I want to translate into a snippet of unique python code. The basic idea is to use indentation and curly braces `}` to denote nested parenthesis and a call to a `compose` function. For example, I want
+This is a toy language interpreter/transpiler. want to translate into
+a snippet of specialized python code. The basic idea is to
+use indentation and curly braces `}` to denote nested parenthesis
+and a call to a `compose` function. For example, I want
 
 ```newlang
 } my_func
@@ -30,9 +33,11 @@ compose(newfunc, 2, compose(otherfunc, 3, 4,),)
 ```
 """
 
-from composing import co
-from library import wrap_in_unit_function, pri, p, our_id, concat, t
-from new_parser import parse_newlang_to_python
+from hindent.composing import co
+from hindent.library import wrap_in_unit_function, pri, p, our_id, concat, t
+from hindent.hindent_parser import translate_hindent
+
+
 
 x = wrap_in_unit_function(1)
 y = wrap_in_unit_function(2)
@@ -51,7 +56,7 @@ newlang_code = """
 
 """
 
-eval(parse_newlang_to_python(newlang_code))
+eval(translate_hindent(newlang_code))
 
 newlang_code_2 = """
 
@@ -76,4 +81,4 @@ newlang_code_2 = """
 
 """
 
-eval(parse_newlang_to_python(newlang_code_2))
+eval(translate_hindent(newlang_code_2))

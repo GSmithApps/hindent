@@ -7,19 +7,6 @@
 Hindent
 =======
 
-Hindent is an alternate syntax for lisp code.  For example,
-instead of writing
-
-.. code-block::
-
-   (println (+ 1 2))
-
-You could write
-
-.. code-block::
-
-   println
-     + 1 2
 
 
 
@@ -28,11 +15,7 @@ You could write
    :caption: Contents:
 
    installation-and-usage
-   explanation
-   examples
-   main
-   execution
-   misc
+
 
 Indices and tables
 ==================

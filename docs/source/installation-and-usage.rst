@@ -10,17 +10,6 @@ Installation
    `Hindent Lang <https://marketplace.visualstudio.com/items?itemName=GrantSmith.hindent-lang>`_.  You can find
    it in the normal extensions menu / marketplace.
 
-If you want to also execute code,
-(which you probably do), then you need
-to have that language on your path.
-You'd also need to configure your
-executor, which is explained in the
-page on execution.  The default
-execution is Clojure, so if you
-want to use the default, then
-`install clojure <https://clojure.org/guides/install_clojure>`_
-(and Java)
-
 Usage
 -----
 
