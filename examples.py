@@ -17,11 +17,8 @@ fam = wrap_in_unit_function("fam")
 newlang_code = """
 
 } print
-  } +
-    x
-    } +
-      x
-      y
+  } + x
+    } + x y
 
 """
 
