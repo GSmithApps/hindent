@@ -10,77 +10,12 @@ def print_parsed_forms(forms):
         print(pretty_s_expr(form))
         print()  # blank line after each top-level form
 
-# Example usage:
-box_text = """
-┌────
-│ define
-│ ┌────
-│ │ counter-first start-num
-│ ├────
-│ │ lambda
-│ │ ┌────
-│ │ │ 
-│ │ ├────
-│ │ │ cons
-│ │ │ start-num
-│ │ │ ┌────
-│ │ │ │ counter-first
-│ │ │ │ ┌────
-│ │ │ │ │ + start-num 1
-└─┴─┴─┴─┴────
-
-┌────
-│ define
-│ ┌────
-│ │ counter-second start-num
-│ ├────
-│ │ lambda
-│ │ ┌────
-│ │ │ 
-│ │ ├────
-│ │ │ cons
-│ │ │ start-num
-│ │ │ ┌────
-│ │ │ │ counter-first
-│ │ │ │ ┌────
-│ │ │ │ │ + start-num 1
-└─┴─┴─┴─┴────
-"""
+# open newsyntax.txt and read the contents
+with open("newsyntax.txt") as f:
+    box_text = f.read()
 
 forms = parse_box_drawing_chunk(box_text)
 # forms should be a list of two items
 print_parsed_forms(forms)
 
-# This worked and printed the following:
-# (
-#   define
-#   (
-#     counter-first start-num)
-#   (
-#     lambda
-#     ()
-#     (
-#       cons
-#       start-num
-#       (
-#         counter-first
-#         (
-#           +
-#           start-num 1)))))
-# 
-# (
-#   define
-#   (
-#     counter-second start-num)
-#   (
-#     lambda
-#     ()
-#     (
-#       cons
-#       start-num
-#       (
-#         counter-first
-#         (
-#           +
-#           start-num 1)))))
 
