@@ -50,3 +50,37 @@ box_text = """
 forms = parse_box_drawing_chunk(box_text)
 # forms should be a list of two items
 print_parsed_forms(forms)
+
+# This worked and printed the following:
+# (
+#   define
+#   (
+#     counter-first start-num)
+#   (
+#     lambda
+#     ()
+#     (
+#       cons
+#       start-num
+#       (
+#         counter-first
+#         (
+#           +
+#           start-num 1)))))
+# 
+# (
+#   define
+#   (
+#     counter-second start-num)
+#   (
+#     lambda
+#     ()
+#     (
+#       cons
+#       start-num
+#       (
+#         counter-first
+#         (
+#           +
+#           start-num 1)))))
+
